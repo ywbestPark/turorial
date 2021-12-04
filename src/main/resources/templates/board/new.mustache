@@ -1,0 +1,15 @@
+{{>layout/header}}
+
+<form class="container" action="/board/create" method="post">
+    <div class="mb-3">
+        <label class="form-label">Title</label>
+        <input type="text" class="form-control" name="title">
+    </div>
+    <div class="mb-3">
+        <label class="form-label">Contents</label>
+        <textarea class="form-control" rows="3" name="contents"></textarea>
+    </div>
+    <button type="submit" class="btn btn-primary">Create</button>
+</form>
+
+{{>layout/footer}}
