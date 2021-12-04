@@ -1,20 +1,19 @@
 package com.example.tutorial.entity;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.NoArgsConstructor;
 import lombok.ToString;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Entity //DB가 해당 객체를 인식 가능
-@AllArgsConstructor
+@NoArgsConstructor
 @ToString
 public class BoardEntity {
 
     @Id // 키값 지정
-    @GeneratedValue // 자동 생성
+    @GeneratedValue(strategy = GenerationType.IDENTITY)// 자동 생성
     private Long id;
 
     @Column
@@ -23,6 +22,10 @@ public class BoardEntity {
     @Column
     private String contents;
 
-    public BoardEntity() {
+    @Builder
+    public BoardEntity(Long id, String title, String contents) {
+        this.id = id;
+        this.title = title;
+        this.contents = contents;
     }
 }

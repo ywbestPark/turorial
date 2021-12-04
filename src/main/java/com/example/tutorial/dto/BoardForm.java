@@ -11,6 +11,8 @@ public class BoardForm {
     private String contents;
 
     public BoardEntity toEntity() {
-        return new BoardEntity(null, title, contents);
+        return BoardEntity.builder()
+                .title(title)
+                .contents(contents).build();
     }
 }
