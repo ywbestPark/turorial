@@ -1,15 +1,15 @@
 package com.example.tutorial.entity;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+import com.example.tutorial.dto.BoardUpdateDTO;
+import lombok.*;
 
 import javax.persistence.*;
 
 @Entity //DB가 해당 객체를 인식 가능
 @NoArgsConstructor
 @ToString
+@Getter
+@Setter
 public class BoardEntity {
 
     @Id // 키값 지정
@@ -27,5 +27,12 @@ public class BoardEntity {
         this.id = id;
         this.title = title;
         this.contents = contents;
+    }
+
+    public BoardUpdateDTO toDTO() {
+        return BoardUpdateDTO.builder()
+                .id(id)
+                .title(title)
+                .contents(contents).build();
     }
 }

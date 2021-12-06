@@ -2,7 +2,6 @@
 
 <!-- Required dataTable -->
 <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.3/css/jquery.dataTables.min.css">
-<script type="text/javascript" language="javascript" src="https://code.jquery.com/jquery-3.5.1.js"></script>
 <script type="text/javascript" language="javascript" src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.min.js"></script>
 <script type="text/javascript" class="init">
         $(document).ready(function() {
@@ -35,8 +34,10 @@
         {{#posts}}
             <tr>
                 <td>{{id}}</td>
-                <td><a href="/board/update/{{id}}">{{title}}</a></td>
-                <td>{{contents}}</td>
+                {{#title}}<td><a href="/board/update/view{{id}}">{{title}}</a></td>{{/title}}
+                {{^title}}<td><a href="/board/update/view{{id}}"></a></td>{{/title}}
+                {{#contents}}<td>{{contents}}</td>{{/contents}}
+                {{^contents}}<td></td>{{/contents}}
             </tr>
         {{/posts}}
         </tbody>
