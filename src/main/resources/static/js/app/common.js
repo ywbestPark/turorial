@@ -10,6 +10,11 @@ var main = {
        $("#btn-update").on('click', function () {
            _this.update();
        });
+
+       $("#btn-delete").on('click', function () {
+           _this.delete();
+       });
+
    },
    save : function () {
    debugger;
@@ -55,15 +60,15 @@ var main = {
       },
          delete : function () {
              var id = $("#id").val();
-
+             debugger;
              $.ajax({
                  type : 'DELETE',
-                 url : '/api/v1/posts/'+ id,
-                 dataType : 'json',
-                 contentType : 'application/json; charset=utf-8'
+                 url : '/board/delete/'+ id,
+                 dataType : 'text'
              }).done(function () {
+             debugger;
                  alert('글이 삭제되었습니다.');
-                 window.location.href = '/';
+                 window.location.href = '/board/lists';
              }).fail(function (error) {
                  alert(JSON.stringify(error));
              });

@@ -100,4 +100,15 @@ public class BoardController {
 //                });
     }
 
+    @DeleteMapping("/board/delete/{id}")
+    @ResponseBody
+    public Long deleteEmployee(@PathVariable(value = "id") Long id) {
+        boardRepository.findById(id)
+                       .orElseThrow(() -> new IllegalArgumentException("해당 게시글이 없습니다 id=" + id));
+
+        boardRepository.deleteById(id);
+
+        return id;
+    }
+
 }
