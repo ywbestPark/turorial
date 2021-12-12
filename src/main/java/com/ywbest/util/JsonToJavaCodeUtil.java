@@ -5,6 +5,8 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.JsonNodeType;
 
+import java.io.BufferedWriter;
+import java.io.FileWriter;
 import java.util.*;
 
 public class JsonToJavaCodeUtil {
@@ -81,6 +83,39 @@ public class JsonToJavaCodeUtil {
 
         }
         return objectMapList;
+    }
+
+    public void convertLinkedHashMapToJavaCode(LinkedHashMap<String, List<String>> resultMap, String filePath, boolean doAppend){
+        //아래와 같이 BufferedWriter를 선언하면 finally에서 close를 안해줘도 자동으로 close 됨
+        try(BufferedWriter bw = new BufferedWriter(new FileWriter(filePath, doAppend))){
+
+            Iterator<List<String>> iterator = resultMap.values().iterator();
+            Set<String> keys = resultMap.keySet();
+            for (String key : keys){
+                String className = key.substring(0, 1).toUpperCase() + key.substring(1);
+//                bw.append("public class "+className+"{"+"\n");
+                bw.append(addLineWithTabWithEnter("public class "+className+"{", 0));
+                List<String> lineList = resultMap.get(key);
+                for (String line : lineList){
+                    bw.append("\t"+line);
+                }
+                //bw.append("}"+"\n");
+                bw.append(addLineWithTabWithEnter("}", 0));
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private String addLineWithTabWithEnter(String inputString, int tabCount) {
+        StringBuilder stringBuilder = new StringBuilder();
+        for (int i=0; i<tabCount; i++){
+            stringBuilder.append("\t");
+        }
+        stringBuilder.append(inputString);
+        stringBuilder.append("\n");
+        return stringBuilder.toString();
     }
 
     private String getRealType(JsonNode value) {
