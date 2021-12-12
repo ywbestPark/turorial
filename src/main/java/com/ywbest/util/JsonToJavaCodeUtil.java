@@ -24,38 +24,48 @@ public class JsonToJavaCodeUtil {
     }
 
     private LinkedHashMap<String, List<String>> traverseJsonNode(JsonNode jsonNode, LinkedHashMap<String, List<String>> objectMapList, List<String> lineList) {
-        Iterator<Map.Entry<String, JsonNode>> fields = jsonNode.fields();
 
-        while (fields.hasNext()){
-            Map.Entry<String, JsonNode> entry = fields.next();
+        if(jsonNode.isObject()){
+            Iterator<Map.Entry<String, JsonNode>> fields = jsonNode.fields();
+            while (fields.hasNext()){
+                Map.Entry<String, JsonNode> entry = fields.next();
 
-            if(entry.getValue().getNodeType() == JsonNodeType.OBJECT){
-                lineList.add("private "+entry.getKey()+" "+entry.getKey()+"; \n");
+                if(entry.getValue().getNodeType() == JsonNodeType.OBJECT){
+                    lineList.add("private "+entry.getKey()+" "+entry.getKey()+"; \n");
 
-                List<String> lineList1 = new ArrayList<>();
-                objectMapList.put(entry.getKey(),lineList1);
-                traverseJsonNode(entry.getValue(), objectMapList, lineList1);
-            }else if(entry.getValue().getNodeType() == JsonNodeType.ARRAY){
-                Iterator<JsonNode> jsonNodeIterator = entry.getValue().iterator();
-                while (jsonNodeIterator.hasNext()){
-                    JsonNode currentNode = jsonNodeIterator.next();
-                    if(currentNode.isObject()){
-                        lineList.add("private List<"+entry.getKey()+"> "+entry.getKey()+"; \n");
-                        List<String> lineList1 = new ArrayList<>();
-                        objectMapList.put(entry.getKey(),lineList1);
-                        traverseJsonNode(currentNode, objectMapList, lineList1);
-                    }else if(currentNode.isArray()){
-                        throw new RuntimeException("Not Arrow Array in Array");
-                    }else{
-                        lineList.add("private List<"+getRealType(currentNode)+"> "+entry.getKey()+"; \n");
+                    List<String> lineList1 = new ArrayList<>();
+                    objectMapList.put(entry.getKey(),lineList1);
+                    traverseJsonNode(entry.getValue(), objectMapList, lineList1);
+                }else if(entry.getValue().getNodeType() == JsonNodeType.ARRAY){
+                    Iterator<JsonNode> jsonNodeIterator = entry.getValue().iterator();
+                    while (jsonNodeIterator.hasNext()){
+                        JsonNode currentNode = jsonNodeIterator.next();
+                        if(currentNode.isObject()){
+                            lineList.add("private List<"+entry.getKey()+"> "+entry.getKey()+"; \n");
+                            List<String> lineList1 = new ArrayList<>();
+                            objectMapList.put(entry.getKey(),lineList1);
+                            traverseJsonNode(currentNode, objectMapList, lineList1);
+                        }else if(currentNode.isArray()){
+                            throw new RuntimeException("Not Arrow Array in Array");
+                        }else{
+                            lineList.add("private List<"+getRealType(currentNode)+"> "+entry.getKey()+"; \n");
+                        }
+                        break;  // 만약 모든 필드의 값을 알고 싶다면 주석 해제
                     }
-                    break;  // 만약 모든 필드의 값을 알고 싶다면 주석 해제
+                }else{
+                    lineList.add("private "+getRealType(entry.getValue())+" "+entry.getKey()+"; \n");
                 }
-            }else{
-                lineList.add("private "+getRealType(entry.getValue())+" "+entry.getKey()+"; \n");
             }
-        }
+        }else if(jsonNode.isArray()){
+            Iterator<JsonNode> jsonNodeIterator = jsonNode.iterator();
+            while (jsonNodeIterator.hasNext()){
+                JsonNode currentNode = jsonNodeIterator.next();
+                traverseJsonNode(currentNode, objectMapList, lineList);
+                break;  // 만약 모든 필드의 값을 알고 싶다면 주석 해제
+            }
+        }else{
 
+        }
         return objectMapList;
     }
 
@@ -82,14 +92,6 @@ public class JsonToJavaCodeUtil {
         if(value.isBoolean()){
             return "boolean";
         }
-        /*
-        if(value.isArray()){
-            return "List<"+entry.getKey()+">";
-        }
-        if(value.isObject()){
-            return entry.getKey();
-        }
-        */
         if(value.isBinary()){
             return "binary";
         }
