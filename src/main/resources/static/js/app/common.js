@@ -15,9 +15,12 @@ var main = {
            _this.delete();
        });
 
+       $("#btn-json-convert").on('click', function () {
+           _this.json_convert();
+       });
+
    },
    save : function () {
-   debugger;
        var data = {
            title : $("#title").val(),
            contents : $("#contents").val()
@@ -72,6 +75,32 @@ var main = {
              }).fail(function (error) {
                  alert(JSON.stringify(error));
              });
+         },
+         json_convert : function () {
+              var jsonString = $("#floatingTextarea1").val();
+              debugger;
+              $.ajax({
+                   type : 'POST',
+                   url : '/json/convert',
+                   //contentType : 'application/json; charset=utf-8',
+                   contentType : 'application/x-www-form-urlencoded; charset=utf-8',
+                   data : {
+                    "name" : "test",
+                    "jsonString" : jsonString
+                   },
+                   dataType : 'text'
+              }).done(function (data) {
+              debugger;
+                   console.log(data);
+                   alert('변환 되었습니다.');
+                   $("#floatingTextarea2").empty();
+                   $("#floatingTextarea2").append(data);
+
+              }).fail(function (error) {
+                   console.log(error);
+                   alert(JSON.stringify(error));
+
+              });
          }
    };
 
