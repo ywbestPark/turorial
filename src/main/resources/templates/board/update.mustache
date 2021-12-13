@@ -23,11 +23,15 @@
             </div>
             <div class="form-group">
                 <label for="title">Title</label>
-                <input type="text" class="form-control" id="title" value="{{post.title}}">
+                {{#post.title}}<input type="text" class="form-control" id="title" value="{{post.title}}">{{/post.title}}
+                {{^post.title}}<input type="text" class="form-control" id="title" value="">{{/post.title}}
+
             </div>
             <div class="form-group">
                 <label for="contents"> Contents </label>
-                <textarea class="form-control" id="contents">{{post.contents}}</textarea>
+                {{#post.contents}}<textarea class="form-control" id="contents">{{post.contents}}</textarea>{{/post.contents}}
+                {{^post.contents}}<textarea class="form-control" id="contents"></textarea>{{/post.contents}}
+
             </div>
         </form>
 
