@@ -1,4 +1,4 @@
-package com.example.tutorial.dto;
+package com.example.tutorial.excel.entity;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;

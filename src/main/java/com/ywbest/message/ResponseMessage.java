@@ -1,4 +1,4 @@
-package com.example.tutorial.dto;
+package com.ywbest.message;
 
 public class ResponseMessage {
     private String message;

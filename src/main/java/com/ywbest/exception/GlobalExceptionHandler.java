@@ -1,6 +1,6 @@
-package com.example.tutorial.exception;
+package com.ywbest.exception;
 
-import com.example.tutorial.dto.ResponseMessage;
+import com.ywbest.message.ResponseMessage;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

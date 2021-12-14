@@ -1,12 +1,13 @@
-package com.example.tutorial.service;
+package com.example.tutorial.excel.service;
 
-import com.example.tutorial.dto.Tutorial;
-import com.example.tutorial.repository.TutorialRepository;
+import com.example.tutorial.excel.entity.Tutorial;
+import com.example.tutorial.excel.repository.TutorialRepository;
 import com.ywbest.util.ExcelHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.util.List;
 
@@ -26,5 +27,12 @@ public class ExcelService {
 
     public List<Tutorial> getAllTutorials() {
         return repository.findAll();
+    }
+
+    public ByteArrayInputStream load() {
+        List<Tutorial> tutorials = repository.findAll();
+
+        ByteArrayInputStream in = ExcelHelper.tutorialsToExcel(tutorials);
+        return in;
     }
 }
