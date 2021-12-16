@@ -1,7 +1,6 @@
 package com.example.tutorial.image.controller;
 
 import com.example.tutorial.image.entity.ImageEntity;
-import com.example.tutorial.image.entity.Res;
 import com.example.tutorial.image.service.ImageService;
 import com.ywbest.message.ResponseMessage;
 import lombok.extern.slf4j.Slf4j;
@@ -103,20 +102,5 @@ public class ImageController {
 
         }
         return ResponseEntity.status(HttpStatus.OK).body(new ResponseMessage(message));
-    }
-
-    @GetMapping("/lists")
-    public ResponseEntity<Res> getAllImages() {
-        Res res = new Res();
-        try {
-            List<ImageEntity> imageEntities = imageService.getAllImages();
-            res.setItems(imageEntities);
-            if (imageEntities.isEmpty()) {
-                return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-            }
-            return new ResponseEntity<>(res, HttpStatus.OK);
-        } catch (Exception e) {
-            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
-        }
     }
 }

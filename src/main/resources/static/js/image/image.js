@@ -3,16 +3,6 @@ var main = {
    init : function () {
    debugger;
 
-       $.ajax({
-          type : 'GET',
-          url : '/image/lists/',
-          dataType : 'text'
-       }).done(function (data) {
-
-       }).fail(function (request, status, error) {
-          alert("code : "+request.status+"\n"+"message : "+request.responseText+"\n"+"error : "+error);
-       });
-
        var _this = this;
 
        $('#btn-image-upload').on('click', function () {
