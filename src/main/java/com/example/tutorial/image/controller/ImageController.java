@@ -5,6 +5,7 @@ import com.example.tutorial.image.entity.Res;
 import com.example.tutorial.image.service.ImageService;
 import com.ywbest.message.ResponseMessage;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -28,6 +29,8 @@ import java.util.Map;
 @Slf4j
 @RequestMapping("/image")
 public class ImageController {
+    @Value("${spring.servlet.multipart.location}")
+    private String multiPathPath;
 
     private final ImageService imageService;
 
@@ -61,15 +64,9 @@ public class ImageController {
 
                 file = multipartFiles.getFile(fileName);
 
-
-                String absolutePath = new File("").getAbsolutePath() + File.separator;
-                log.error("absolutePath {} " + absolutePath);
-
                 LocalDateTime now = LocalDateTime.now();
                 DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyyMMdd");
                 String current_date = now.format(dateTimeFormatter);
-                //String path = "user-photos" + File.separator + current_date;
-                String path = "user-photos";
 
                 String originalFileExtension;
                 String contentType = file.getContentType();
@@ -86,12 +83,8 @@ public class ImageController {
                         return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body(new ResponseMessage(message));
                     }
                 }
-                String new_file_name = System.nanoTime() + originalFileExtension;
-                //File newFile = new File(absolutePath + path + File.separator + new_file_name);
-                //File newFile = new File(new_file_name);
-                File newFile = new File("D:/Users/ywbest/workspace/turorial/src/main/resources/static/img" + File.separator + new_file_name);
-                System.out.println("bbbbbbbbbbbbbbbbbbbb " + "D:/Users/ywbest/workspace/turorial/src/main/resources/static/img" + File.separator + new_file_name);
-
+                String new_file_name = current_date + "/" + System.nanoTime() + originalFileExtension;
+                File newFile = new File(multiPathPath + new_file_name);
                 if (!newFile.exists()) {
                     boolean wasSuccessful = newFile.mkdirs();
                 }
@@ -100,10 +93,8 @@ public class ImageController {
 
                 message = "Uploaded the file successfully: " + file.getOriginalFilename();
 
-                ImageEntity imageEntity = new ImageEntity(null, (String)param.get("title"), (String)param.get("description"), "/img/"+new_file_name);
+                ImageEntity imageEntity = new ImageEntity(null, (String)param.get("title"), (String)param.get("description"), "/user-photos/" + new_file_name);
                 imageService.save(imageEntity);
-
-
 
             } catch (Exception e) {
                 message = "Could not upload the file: " + file.getOriginalFilename() + "!";

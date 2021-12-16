@@ -46,6 +46,7 @@ var main = {
        }).done(function (data) {
            var jData = JSON.parse(data);
            alert(jData.message);
+           window.location.href = '/image/';
        }).fail(function (request, status, error) {
            alert("code : "+request.status+"\n"+"message : "+request.responseText+"\n"+"error : "+error);
        });
