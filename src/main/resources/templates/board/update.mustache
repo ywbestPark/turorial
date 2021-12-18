@@ -1,0 +1,41 @@
+{{>layout/header}}
+
+<div class="container-fluid my-3">
+    <div class="row align-items-center">
+        <div class="col col-3">
+            <h2>Board Edit</h2>
+        </div>
+        <div class="col col-9">
+            <a href="/board/lists" role="button" class="btn btn-secondary">Lists</a>
+            <button type="button" class="btn btn-primary" id="btn-update">Update</button>
+            <button type="button" class="btn btn-danger" id="btn-delete">Delete</button>
+        </div>
+    </div>
+</div>
+<hr>
+
+<div class="container-fluid">
+    <div class="col-md-4">
+        <form>
+            <div class="form-group">
+                <label for="id">ID</label>
+                <input type="text" class="form-control" id="id"value="{{post.id}}" readonly>
+            </div>
+            <div class="form-group">
+                <label for="title">Title</label>
+                {{#post.title}}<input type="text" class="form-control" id="title" value="{{post.title}}">{{/post.title}}
+                {{^post.title}}<input type="text" class="form-control" id="title" value="">{{/post.title}}
+
+            </div>
+            <div class="form-group">
+                <label for="contents"> Contents </label>
+                {{#post.contents}}<textarea class="form-control" id="contents">{{post.contents}}</textarea>{{/post.contents}}
+                {{^post.contents}}<textarea class="form-control" id="contents"></textarea>{{/post.contents}}
+
+            </div>
+        </form>
+
+    </div>
+</div>
+
+{{>layout/footer}}

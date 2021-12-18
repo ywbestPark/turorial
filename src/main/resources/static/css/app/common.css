@@ -1,0 +1,46 @@
+body, html{
+    height: 100%;
+    width: 100%;
+}
+.container_custom{
+    background: beige;
+    height: 100vh;
+    /*height: 100%;*/
+    width: 100vw;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+
+    justify-content: center;
+    align-items: center;
+    align-content: center;
+}
+
+.item{
+    width: 40px;
+    height: 70%;
+    border: 1px solid black;
+}
+
+.item1{
+    background: burlywood;
+    /*(flex-grow: 1;
+    flex-shrink: 1;*/
+    flex-basis: 43%;
+}
+
+.item2{
+    background: rgb(172, 215, 216);
+    /*(flex-grow: 1;
+    flex-shrink: 1;*/
+    text-align: center;
+    align-items: center;
+    flex-basis: 10%;
+}
+
+.item3{
+    background: chartreuse;
+    /*(flex-grow: 1;
+    flex-shrink: 1;*/
+    flex-basis: 43%;
+}

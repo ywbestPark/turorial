@@ -1,0 +1,27 @@
+{{>layout/header}}
+
+<div class="container-fluid my-3">
+    <div class="row align-items-center">
+        <div class="col col-9">
+            <h2>Board New</h2>
+        </div>
+        <div class="col col-3">
+            <button type="button" class="btn btn-primary" id="btn-save">Create</button>
+        </div>
+    </div>
+</div>
+<hr>
+
+<form class="container">
+    <div class="mb-3">
+        <label class="form-label" for="title">Title</label>
+        <input type="text" class="form-control" id="title">
+    </div>
+    <div class="mb-3">
+        <label class="form-label" for="contents">Contents</label>
+        <textarea class="form-control" rows="3" id="contents"></textarea>
+    </div>
+    <!--<button type="submit" class="btn btn-primary">Create</button>-->
+</form>
+
+{{>layout/footer}}

@@ -1,0 +1,47 @@
+{{>layout/header}}
+
+<!-- Required dataTable -->
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.3/css/jquery.dataTables.min.css">
+<script type="text/javascript" language="javascript" src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.min.js"></script>
+<script type="text/javascript" class="init">
+        $(document).ready(function() {
+            $('#example').DataTable();
+        } );
+</script>
+
+<div class="container-fluid my-3">
+    <div class="row align-items-center">
+        <div class="col col-9">
+            <h2>Board Lists</h2>
+        </div>
+        <div class="col col-3">
+            <a href="/board/new" role="button" class="btn btn-primary btn-sm">NEW</a>
+        </div>
+    </div>
+</div>
+<hr>
+
+<div class="container-fluid">
+    <table id="example" class="display" style="width:100%">
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>Title</th>
+            <th>Contents</th>
+        </tr>
+        </thead>
+        <tbody>
+        {{#posts}}
+            <tr>
+                <td>{{id}}</td>
+                {{#title}}<td><a href="/board/update/view/{{id}}">{{title}}</a></td>{{/title}}
+                {{^title}}<td><a href="/board/update/view/{{id}}">No Title</a></td>{{/title}}
+                {{#contents}}<td>{{contents}}</td>{{/contents}}
+                {{^contents}}<td></td>{{/contents}}
+            </tr>
+        {{/posts}}
+        </tbody>
+    </table>
+</div>
+
+{{>layout/footer}}

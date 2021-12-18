@@ -1,0 +1,31 @@
+public class Root{
+	private items items; 
+}
+
+public class Items{
+	private List<item> item; 
+}
+
+public class Item{
+	private String id; 
+	private String type; 
+	private String name; 
+	private double ppu; 
+	private batters batters; 
+	private List<topping> topping; 
+}
+
+public class Batters{
+	private List<batter> batter; 
+}
+
+public class Batter{
+	private String id; 
+	private String type; 
+}
+
+public class Topping{
+	private String id; 
+	private String type; 
+}
+
