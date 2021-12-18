@@ -1,5 +1,6 @@
 package com.example.tutorial.image.entity;
 
+import com.example.tutorial.entity.BaseTimeEntity;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -11,7 +12,7 @@ import javax.persistence.*;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class ImageEntity {
+public class ImageEntity extends BaseTimeEntity {
     @Id
     @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)

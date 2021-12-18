@@ -7,6 +7,8 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+import static com.example.tutorial.entity.BaseTimeEntity.SORT_BY_CREATED_DATE_DESC;
+
 @Service
 public class ImageService {
 
@@ -14,7 +16,7 @@ public class ImageService {
     ImageRepository repository;
 
     public List<ImageEntity> getAllImages(){
-        return repository.findAll();
+        return repository.findAll(SORT_BY_CREATED_DATE_DESC);
     }
     public ImageEntity save(ImageEntity imageEntity) { return repository.save(imageEntity); };
 }

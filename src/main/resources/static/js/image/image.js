@@ -39,6 +39,7 @@ var main = {
            window.location.href = '/image/';
        }).fail(function (request, status, error) {
            alert("code : "+request.status+"\n"+"message : "+request.responseText+"\n"+"error : "+error);
+           //$("#submitErrorMessage").show();
        });
    },
    excelDownload2 : function () {
