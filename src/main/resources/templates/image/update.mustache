@@ -1,0 +1,46 @@
+{{>layout/header}}
+
+<!-- Page Content-->
+<section class="py-5">
+    <div class="text-center mb-5">
+        <h1 class="fw-bolder">Image Board</h1>
+        <p class="lead fw-normal text-muted mb-0">Update your image data</p>
+    </div>
+    <div class="bg-light rounded-3 py-5 px-4 px-md-5 mb-5">
+        <div class="row gx-5 justify-content-center">
+            <div class="col-lg-8 col-xl-6">
+                {{#items}}
+                <form id="form" enctype="multipart/form-data">
+                    <div class="d-grid mb-3"><a href="/image" role="button" class="btn btn-primary btn-lg">Lists</a></div>
+                    <input type="hidden" id="id" name="id" value="{{id}}">
+                    <div class="form-group mb-3">
+                        <label for="title">Title</label>
+                        {{#title}}<input type="text" class="form-control" id="title" name="title" value="{{title}}">{{/title}}
+                        {{^title}}<input type="text" class="form-control" id="title" name="title" value="">{{/title}}
+                    </div>
+                    <div class="form-group mb-3">
+                        <label for="description">Description</label>
+                        {{#description}}<textarea type="text" class="form-control" id="description" name="description" style="height: 10rem">{{description}}</textarea>{{/description}}
+                        {{^description}}<textarea type="text" class="form-control" id="description" name="description" style="height: 10rem"></textarea>{{/description}}
+                    </div>
+                    <div class="form-group mb-3">
+                        <label for="file">File</label>
+                        {{#imagePath}}<img class="card-img-top" src="{{imagePath}}" alt="..."/>{{/imagePath}}
+                        {{^imagePath}}<img class="card-img-top" src="https://dummyimage.com/600x350/ced4da/6c757d" alt="..."/>{{/imagePath}}
+                    </div>
+                    <div class="d-grid">
+                        <button class="btn btn-primary btn-lg" type="button" id="btn-image-update">
+                            <span class="spinner-border spinner-border-sm" id="spinner" role="status" aria-hidden="true"></span>
+                            Update
+                        </button>
+                    </div>
+                </form>
+                {{/items}}
+            </div>
+        </div>
+    </div>
+</section>
+
+<script src="/js/image/image.js"></script>
+
+{{>layout/footer}}

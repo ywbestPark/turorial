@@ -6,6 +6,7 @@ import org.springframework.data.annotation.Transient;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
+import javax.persistence.Column;
 import javax.persistence.EntityListeners;
 import javax.persistence.MappedSuperclass;
 import java.time.LocalDateTime;
@@ -18,7 +19,12 @@ public abstract class BaseTimeEntity {
     public static final Sort SORT_BY_CREATED_DATE_DESC =
             Sort.by(Sort.Direction.DESC, "createdDate");
 
+    @Transient
+    public static final Sort SORT_BY_MODIFIED_DATE_DESC =
+            Sort.by(Sort.Direction.DESC, "modifiedDate");
+
     @CreatedDate
+    @Column(updatable = false)
     private LocalDateTime createdDate;
 
     @LastModifiedDate

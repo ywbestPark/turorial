@@ -22,7 +22,12 @@
                         <label for="file">File</label>
                         <input type="file" class="form-control" id="file" name="file" accept="image/*">
                     </div>
-                    <div class="d-grid"><button class="btn btn-primary btn-lg" type="button" id="btn-image-upload">Upload</button></div>
+                    <div class="d-grid">
+                        <button class="btn btn-primary btn-lg" type="button" id="btn-image-save" disabled>
+                            <span class="spinner-border spinner-border-sm" id="spinner" role="status" aria-hidden="true"></span>
+                            Save
+                        </button>
+                    </div>
                 </form>
             </div>
         </div>
@@ -33,11 +38,14 @@
             {{#items}}
                 <div class="col-lg-4 mb-5">
                     <div class="card h-100 shadow border-0">
-                        <img class="card-img-top" src="{{imagePath}}" alt="..." />
+                        {{#imagePath}}<img class="card-img-top" src="{{imagePath}}" alt="..."/>{{/imagePath}}
+                        {{^imagePath}}<img class="card-img-top" src="https://dummyimage.com/600x350/ced4da/6c757d" alt="..."/>{{/imagePath}}
                         <div class="card-body p-4">
                             <div class="badge bg-primary bg-gradient rounded-pill mb-2">News</div>
-                            <a class="text-decoration-none link-dark stretched-link" href="#!"><div class="h5 card-title mb-3">{{title}}</div></a>
-                            <p class="card-text mb-0">{{description}}</p>
+                            {{#title}}<a class="text-decoration-none link-dark stretched-link" href="/image/{{id}}"><div class="h5 card-title mb-3">{{title}}</div></a>{{/title}}
+                            {{^title}}<a class="text-decoration-none link-dark stretched-link" href="/image/{{id}}"><div class="h5 card-title mb-3"></div></a>{{/title}}
+                            {{#description}}<p class="card-text mb-0">{{description}}</p>{{/description}}
+                            {{^description}}<p class="card-text mb-0"></p>{{/description}}
                         </div>
                         <div class="card-footer p-4 pt-0 bg-transparent border-top-0">
                             <div class="d-flex align-items-end justify-content-between">
@@ -47,7 +55,6 @@
                                         <div class="fw-bold">AutoCoding Park</div>
                                         {{#modifiedDate}}<div class="text-muted">{{modifiedDate}}</div>{{/modifiedDate}}
                                         {{^modifiedDate}}<div class="text-muted">####-##-##T##:##:##</div>{{/modifiedDate}}
-
                                     </div>
                                 </div>
                             </div>
@@ -64,12 +71,6 @@
         </div>
     </div>
 </section>
-
-<section class="py-5">
-
-</section>
-
-
 
 <script src="/js/image/image.js"></script>
 

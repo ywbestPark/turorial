@@ -2,13 +2,18 @@ package com.example.tutorial.image.service;
 
 import com.example.tutorial.image.entity.ImageEntity;
 import com.example.tutorial.image.repository.ImageRepository;
+import com.ywbest.exception.NotFoundException;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
-import static com.example.tutorial.entity.BaseTimeEntity.SORT_BY_CREATED_DATE_DESC;
+import static com.example.tutorial.entity.BaseTimeEntity.SORT_BY_MODIFIED_DATE_DESC;
+import static com.ywbest.exception.ErrorCode.NOT_FOUND;
 
+@Slf4j
 @Service
 public class ImageService {
 
@@ -16,7 +21,24 @@ public class ImageService {
     ImageRepository repository;
 
     public List<ImageEntity> getAllImages(){
-        return repository.findAll(SORT_BY_CREATED_DATE_DESC);
+        return repository.findAll(SORT_BY_MODIFIED_DATE_DESC);
     }
     public ImageEntity save(ImageEntity imageEntity) { return repository.save(imageEntity); };
+
+    public ImageEntity findByID(Long id) {
+        Optional<ImageEntity> optionalImageEntity = repository.findById(id);
+        if(optionalImageEntity.isPresent()){
+            ImageEntity imageEntity = optionalImageEntity.get();
+            log.info(imageEntity.toString());
+            return imageEntity;
+        }else{
+            throw new NotFoundException("Image not found.", NOT_FOUND);
+        }
+    }
+
+    public ImageEntity update(ImageEntity imageEntity) {
+        ImageEntity beforeImageEntity = this.findByID(imageEntity.getId());
+        imageEntity.setImagePath(beforeImageEntity.getImagePath());
+        return repository.save(imageEntity);
+    }
 }
