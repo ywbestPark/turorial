@@ -96,7 +96,7 @@ public class ImageController {
                 } else {
 
                     originalFileExtension = MimeTypeUtils.parseMimeType(contentType).getSubtype();
-                    originalFileExtension = originalFileExtension+".";
+                    originalFileExtension = "."+originalFileExtension;
                     log.info("originalFileExtension {} : "+originalFileExtension);
                     // 확장자가 jpeg, png인 파일들만 받아서 처리
 //                    if (contentType.contains("image/jpeg")) {
