@@ -1,20 +1,40 @@
+var spinner = document.getElementById("spinner");
+var saveButton = $('#btn-image-save');
+var updateButton = $('#btn-image-update');
+var buttons = $('button')
+
+function loadingBarShow(){
+    spinner.style.visibility = 'visible'; //'visible'
+    buttons.attr('disabled', true);
+}
+
+function loadingBarHide(){
+    spinner.style.visibility = 'hidden'; //'visible'
+    buttons.attr('disabled', false);
+}
+
 var main = {
 
    init : function () {
    debugger;
 
-       var _this = this;
+        var _this = this;
 
-       $('#btn-image-upload').on('click', function () {
-           _this.imageUpload();
+        loadingBarHide();
+
+       saveButton.on('click', function () {
+           _this.save(this);
        });
 
-       $("#btn-image-download").on('click', function () {
-           _this.imageDownload();
+       updateButton.on('click', function () {
+           _this.update();
        });
    },
-   imageUpload : function () {
+   save : function () {
    debugger;
+
+        loadingBarShow()
+
         var form = $('#form')[0];
         var formData = new FormData(form);
 
@@ -28,45 +48,47 @@ var main = {
 
        $.ajax({
            type : 'POST',
-           url : '/image/upload',
+           url : '/image/save',
            dataType : 'text',
            data : formData,
            contentType : false,
            processData : false
        }).done(function (data) {
            var jData = JSON.parse(data);
-           alert(jData.message);
+           alert('save success');
+           loadingBarHide();
            window.location.href = '/image/';
        }).fail(function (request, status, error) {
            alert("code : "+request.status+"\n"+"message : "+request.responseText+"\n"+"error : "+error);
-           //$("#submitErrorMessage").show();
+           loadingBarHide();
        });
    },
-   excelDownload2 : function () {
-          $.ajax({
-              type : 'GET',
-              url : '/excel/download/',
-          }).done(function () {
-              alert('다운로드가 완료 되었습니다.');
-          }).fail(function (request, status, error) {
-              alert("code : "+request.status+"\n"+"message : "+request.responseText+"\n"+"error : "+error);
-          });
-   },
+   update : function () {
+          debugger;
 
-   imageDownload : function () {
-       var $preparingFileModal = $("#preparing-file-modal");
-       $preparingFileModal.dialog({ modal: true });
-       $("#progressbar").progressbar({value: false});
-       $.fileDownload("/excel/download/", {
-            successCallback: function (url) {
-                $preparingFileModal.dialog('close');
-            },
-            failCallback: function (responseHtml, url) {
-                $preparingFileModal.dialog('close');
-                $("#error-modal").dialog({ modal: true });
-            }
-       }); // 버튼의 원래 클릭 이벤트를 중지 시키기 위해 필요합니다.
-       return false;
+          loadingBarShow()
+
+          var data = {
+              id : $("#id").val(),
+              title : $("#title").val(),
+              description : $("#description").val(),
+              imagePath : $("#imagePath").val()
+          };
+
+          $.ajax({
+              type : 'PUT',
+              url : '/image',
+              dataType : 'text',
+              contentType : 'application/json; charset=utf-8',
+              data : JSON.stringify(data)
+          }).done(function () {
+              alert('update success');
+              window.location.href = '/image';
+              loadingBarHide();
+          }).fail(function (error) {
+              alert(JSON.stringify(error));
+              loadingBarHide();
+          });
    }
 }
 
