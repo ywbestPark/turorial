@@ -65,7 +65,7 @@ public class LoginController {
      */
     @PostMapping("join")
     public String join(UserInfo userInfo) {
-        userInfo.setEnabled(true);
+        userInfo.setEnabled(false);
         userInfo.setPassword(passwordEncoder.encode(userInfo.getPassword()));
         userRepository.save(userInfo);
         return "redirect:/loginForm";

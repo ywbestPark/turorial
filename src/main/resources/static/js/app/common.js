@@ -1,5 +1,13 @@
 var main = {
    init : function () {
+
+   $.ajaxSetup({
+        headers: {
+            "X-CSRF-Token" : $('input[name="_csrf"]').attr('value')
+        }
+   });
+
+
    debugger;
        var _this = this;
 
