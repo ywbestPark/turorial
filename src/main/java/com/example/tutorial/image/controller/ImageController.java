@@ -4,6 +4,7 @@ import com.example.tutorial.image.entity.ImageEntity;
 import com.example.tutorial.image.service.ImageService;
 import com.ywbest.message.ResponseMessage;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.tika.Tika;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -95,20 +96,12 @@ public class ImageController {
                     return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body(new ResponseMessage(message));
                 } else {
 
-                    originalFileExtension = MimeTypeUtils.parseMimeType(contentType).getSubtype();
+                    Tika tika = new Tika();
+                    String mimeType = tika.detect(file.getInputStream());
+                    log.info("tikaMimeType {} : "+mimeType);
+                    originalFileExtension = MimeTypeUtils.parseMimeType(mimeType).getSubtype();
                     originalFileExtension = "."+originalFileExtension;
                     log.info("originalFileExtension {} : "+originalFileExtension);
-                    // 확장자가 jpeg, png인 파일들만 받아서 처리
-//                    if (contentType.contains("image/jpeg")) {
-//                        originalFileExtension = ".jpg";
-//                    } else if (contentType.contains("image/png")) {
-//                        originalFileExtension = ".png";
-//                    } else if (contentType.contains("image/gif")) {
-//                        originalFileExtension = ".gif";
-//                    } else {  // 다른 확장자일 경우 처리 x
-//                        message = "Could not upload the file: " + file.getOriginalFilename() + "!";
-//                        return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body(new ResponseMessage(message));
-//                    }
                 }
                 String new_file_name = current_date + "/" + System.nanoTime() + originalFileExtension;
                 File newFile = new File(multiPathPath + new_file_name);

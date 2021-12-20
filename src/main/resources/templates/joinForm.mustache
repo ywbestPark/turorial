@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Join Page</title>
+</head>
+<body>
+<h1> Join Page </h1>
+<form action="/join" method="POST">
+    <input type="hidden" name="_csrf" value="{{_csrf.token}}"/>
+    <input type="text" name="username" placeholder="username" autofocus/>
+    <br/>
+    <input type="password" name="password" placeholder="password"/>
+    <br/>
+    <input type="text" name="email" placeholder="email"/>
+    <br/>
+    <input type="radio" name="role" value="ROLE_ADMIN,ROLE_FAMILY,ROLE_USER"> Admin
+    <input type="radio" name="role" value="ROLE_FAMILY,ROLE_USER"> Family
+    <input type="radio" name="role" value="ROLE_USER" checked="checked"> User
+    <br/>
+    <button type="submit">가입하기</button>
+</form>
+<a href="/loginForm">로그인</a>
+</body>
+</html>
