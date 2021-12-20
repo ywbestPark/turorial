@@ -1,6 +1,5 @@
 package com.example.tutorial.user.repository;
 
-
 import com.example.tutorial.user.entity.UserInfo;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
