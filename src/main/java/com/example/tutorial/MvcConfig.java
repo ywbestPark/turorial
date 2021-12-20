@@ -1,9 +1,10 @@
 package com.example.tutorial;
 
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.web.servlet.view.MustacheViewResolver;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
-import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
+import org.springframework.web.servlet.config.annotation.ViewResolverRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @Configuration
@@ -14,10 +15,13 @@ public class MvcConfig implements WebMvcConfigurer {
     @Value("${spring.webservice.intro}")
     private String introPage;
 
-    @Override
-    public void addViewControllers(ViewControllerRegistry registry) {
-        // 루트 (/) 로 접근 시 introPage로 이동하는 매핑 추가
-        registry.addRedirectViewController("/", introPage);
+    @Override public void configureViewResolvers(ViewResolverRegistry registry) {
+        MustacheViewResolver mustacheViewResolver = new MustacheViewResolver();
+        mustacheViewResolver.setCharset("UTF-8");
+        mustacheViewResolver.setContentType("text/html; charset=UTF-8");
+        mustacheViewResolver.setPrefix("classpath:/templates/"); // Prefix 설정
+        //mustacheViewResolver.setSuffix(".html"); // Suffix 설정
+        registry.viewResolver(mustacheViewResolver);// 위에서 생성한 Mustache 리졸버를 적용
     }
 
     @Override

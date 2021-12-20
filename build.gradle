@@ -32,6 +32,12 @@ dependencies {
 	implementation 'org.apache.poi:poi-ooxml:3.9'
 	// https://mvnrepository.com/artifact/com.github.lafa.tikaNoExternal/tika-parsers
 	implementation group: 'com.github.lafa.tikaNoExternal', name: 'tika-parsers', version: '1.0.18'
+	// https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-thymeleaf
+	implementation group: 'org.springframework.boot', name: 'spring-boot-starter-thymeleaf', version: '2.6.1'
+	implementation 'org.springframework.boot:spring-boot-starter-security'
+	implementation 'org.springframework.security:spring-security-test'
+	// https://mvnrepository.com/artifact/org.thymeleaf.extras/thymeleaf-extras-springsecurity4
+	implementation group: 'org.thymeleaf.extras', name: 'thymeleaf-extras-springsecurity4', version: '3.0.4.RELEASE'
 
 }
 
