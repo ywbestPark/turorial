@@ -5,12 +5,12 @@ import com.example.tutorial.image.repository.ImageRepository;
 import com.ywbest.exception.NotFoundException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
 import java.util.Optional;
 
-import static com.example.tutorial.entity.BaseTimeEntity.SORT_BY_MODIFIED_DATE_DESC;
 import static com.ywbest.exception.ErrorCode.NOT_FOUND;
 
 @Slf4j
@@ -20,9 +20,10 @@ public class ImageService {
     @Autowired
     ImageRepository repository;
 
-    public List<ImageEntity> getAllImages(){
-        return repository.findAll(SORT_BY_MODIFIED_DATE_DESC);
+    public Page<ImageEntity> getAllImages(Pageable pageable){
+        return repository.findAll(pageable);
     }
+
     public ImageEntity save(ImageEntity imageEntity) { return repository.save(imageEntity); };
 
     public ImageEntity findByID(Long id) {

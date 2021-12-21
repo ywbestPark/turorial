@@ -6,6 +6,8 @@ import com.ywbest.message.ResponseMessage;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.tika.Tika;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -19,9 +21,7 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 import java.io.File;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Controller
 @Slf4j
@@ -37,9 +37,19 @@ public class ImageController {
     }
 
     @GetMapping("")
-    public String getView(Model model) {
-        List<ImageEntity> imageEntities = imageService.getAllImages();
+    public String getView(Model model, final Pageable pageable) {
+        Page<ImageEntity> imageEntities = imageService.getAllImages(pageable);
         model.addAttribute("items", imageEntities);
+
+        List<Map<String, Integer>> pageIndexList = new ArrayList<>();
+        Map<String, Integer> pageIndexMap;
+        for (int i=0; i<imageEntities.getTotalPages(); i++){
+            pageIndexMap = new HashMap<>();
+            pageIndexMap.put("index", i);
+            pageIndexMap.put("page", i+1);
+            pageIndexList.add(pageIndexMap);
+        }
+        model.addAttribute("pageIndex", pageIndexList);
 
         return "image/image";
     }
