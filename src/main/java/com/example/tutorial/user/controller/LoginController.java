@@ -4,10 +4,19 @@ import com.example.tutorial.user.entity.UserInfo;
 import com.example.tutorial.user.repository.UserInfoRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.security.Principal;
 
 @Slf4j
 @Controller
@@ -16,34 +25,37 @@ public class LoginController {
     @Autowired private UserInfoRepository userRepository; // 글 아래에서 생성할 예정
     @Autowired private BCryptPasswordEncoder passwordEncoder; // 시큐리티에서 빈(Bean) 생성할 예정
 
-    /**
-     * 인덱스 페이지
-     *
-     * @return
-     */
     @GetMapping({"", "/"})
     public String index() {
+        /**
+         * 1. SecurityContext에서 세션 정보 꺼내기
+         */
+        SecurityContext securityContext = SecurityContextHolder.getContext();
+        log.info("username {} "+securityContext.getAuthentication().getName());
+        log.info("role {} "+securityContext.getAuthentication().getAuthorities());
         return "index";
     }
 
-    /**
-     * 유저 페이지
-     *
-     * @return
-     */
     @GetMapping("user")
-    public String user() {
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    public String user(Principal principal) {
+        log.info("loginUserName {} "+principal.getName());
+        log.info("loginUserInfo {} "+principal);
         return "user";
     }
 
-    /**
-     * 로그인 폼 페이지
-     *
-     * @return
-     */
     @GetMapping("loginForm")
     public String loginForm() {
         return "loginForm";
+    }
+
+    @GetMapping("/signout")
+    public String logout(HttpServletRequest request, HttpServletResponse response) throws Exception {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        if (auth != null) {
+            new SecurityContextLogoutHandler().logout(request, response, auth);
+        }
+        return "redirect:/loginForm";
     }
 
     /**
