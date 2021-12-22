@@ -11,6 +11,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 
@@ -26,13 +27,17 @@ public class LoginController {
     @Autowired private BCryptPasswordEncoder passwordEncoder; // 시큐리티에서 빈(Bean) 생성할 예정
 
     @GetMapping({"", "/"})
-    public String index() {
+    public String index(Model model) {
         /**
          * 1. SecurityContext에서 세션 정보 꺼내기
          */
         SecurityContext securityContext = SecurityContextHolder.getContext();
         log.info("username {} "+securityContext.getAuthentication().getName());
         log.info("role {} "+securityContext.getAuthentication().getAuthorities());
+
+        model.addAttribute("message", "You are logged in as "
+                + securityContext.getAuthentication().getName());
+
         return "index";
     }
 
