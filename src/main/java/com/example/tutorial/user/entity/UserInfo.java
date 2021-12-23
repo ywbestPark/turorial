@@ -1,6 +1,6 @@
 package com.example.tutorial.user.entity;
 
-import com.example.tutorial.entity.BaseTimeEntity;
+import com.example.tutorial.entity.BaseEntity;
 import lombok.*;
 
 import javax.persistence.*;
@@ -12,7 +12,7 @@ import javax.persistence.*;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class UserInfo extends BaseTimeEntity {
+public class UserInfo extends BaseEntity {
     // PK
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
