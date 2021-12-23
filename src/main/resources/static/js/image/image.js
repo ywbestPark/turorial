@@ -127,7 +127,7 @@ debugger;
            var jData = JSON.parse(data);
            alert('save success');
            loadingBarHide();
-           window.location.href = '/image/';
+           window.location.href = '/image?page=0&size=9&sort=modifiedDate,desc';
        }).fail(function (request, status, error) {
            alert("code : "+request.status+"\n"+"message : "+request.responseText+"\n"+"error : "+error);
            loadingBarHide();
