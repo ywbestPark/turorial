@@ -29,11 +29,11 @@ public abstract class BaseEntity {
     private LocalDateTime modifiedDate;
 
     @CreatedBy
-    @Column(updatable = false, columnDefinition = "varchar(255) default 'John Snow'")
+    @Column(updatable = false, columnDefinition = "varchar(255) default 'System'")
     private String createdBy;
 
     @LastModifiedBy
-    @Column(columnDefinition = "varchar(255) default 'John Snow'")
+    @Column(columnDefinition = "varchar(255) default 'System'")
     private String modifiedBy;
 
     public LocalDateTime getCreatedDate() {
