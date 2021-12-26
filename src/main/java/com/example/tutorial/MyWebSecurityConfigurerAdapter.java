@@ -73,7 +73,7 @@ public class MyWebSecurityConfigurerAdapter extends WebSecurityConfigurerAdapter
         http.sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED)
                 .sessionFixation().newSession()
-                .invalidSessionUrl("/invalidSession.html")
+//                .invalidSessionUrl("/invalidSession.html")
                 .maximumSessions(1)
                 .maxSessionsPreventsLogin(true)
                 .expiredUrl("/sessionExpire.html")
@@ -132,6 +132,8 @@ public class MyWebSecurityConfigurerAdapter extends WebSecurityConfigurerAdapter
                         res.sendRedirect("/login");
                     })
                     .permitAll();
+
+        http.oauth2Login();
 
         /**
          * 6.로그아웃 설정

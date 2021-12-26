@@ -28,9 +28,6 @@ public class LoginController {
 
     @GetMapping({"", "/"})
     public String index(Model model) {
-        /**
-         * 1. SecurityContext에서 세션 정보 꺼내기
-         */
         SecurityContext securityContext = SecurityContextHolder.getContext();
         log.info("username {} "+securityContext.getAuthentication().getName());
         log.info("role {} "+securityContext.getAuthentication().getAuthorities());
@@ -38,7 +35,7 @@ public class LoginController {
         model.addAttribute("message", "You are logged in as "
                 + securityContext.getAuthentication().getName());
 
-        return "index";
+        return "redirect:/index.html";
     }
 
     @GetMapping("user")

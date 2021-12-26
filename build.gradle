@@ -38,7 +38,7 @@ dependencies {
 	implementation 'org.springframework.security:spring-security-test'
 	// https://mvnrepository.com/artifact/org.thymeleaf.extras/thymeleaf-extras-springsecurity4
 	implementation group: 'org.thymeleaf.extras', name: 'thymeleaf-extras-springsecurity4', version: '3.0.4.RELEASE'
-
+	implementation 'org.springframework.boot:spring-boot-starter-oauth2-client'
 }
 
 test {
