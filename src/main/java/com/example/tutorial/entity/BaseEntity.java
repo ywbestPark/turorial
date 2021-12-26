@@ -1,5 +1,6 @@
 package com.example.tutorial.entity;
 
+import lombok.Data;
 import org.springframework.data.annotation.*;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
@@ -9,6 +10,7 @@ import javax.persistence.EntityListeners;
 import javax.persistence.MappedSuperclass;
 import java.time.LocalDateTime;
 
+@Data
 @MappedSuperclass
 @EntityListeners(AuditingEntityListener.class)
 public abstract class BaseEntity {
@@ -35,6 +37,9 @@ public abstract class BaseEntity {
     @LastModifiedBy
     @Column(columnDefinition = "varchar(255) default 'System'")
     private String modifiedBy;
+
+    @Column(columnDefinition = "varchar(255) default 'true'")
+    private boolean isEnable;
 
     public LocalDateTime getCreatedDate() {
         return createdDate;
