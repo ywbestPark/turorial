@@ -1,5 +1,9 @@
 package com.example.tutorial;
 
+import com.example.tutorial.entity.ZthmCommonCode;
+import com.example.tutorial.entity.ZthmPage;
+import com.example.tutorial.repository.ZthmCommonCodeRepository;
+import com.example.tutorial.repository.ZthmPageRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.web.servlet.ServletListenerRegistrationBean;
 import org.springframework.context.annotation.Bean;
@@ -18,12 +22,17 @@ import org.springframework.security.core.session.SessionRegistryImpl;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.session.HttpSessionEventPublisher;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(securedEnabled=true, prePostEnabled=true)
 @RequiredArgsConstructor
 @Configuration
 //@EnableJpaAuditing // 디폴트로 세팅되어 있는거 같음
 public class MyWebSecurityConfigurerAdapter extends WebSecurityConfigurerAdapter {
+    private final ZthmCommonCodeRepository zthmCommonCodeRepository;
+    private final ZthmPageRepository zthmPageRepository;
 
     @Bean
     public AuditorAware<String> auditorProvider() {
@@ -95,11 +104,20 @@ public class MyWebSecurityConfigurerAdapter extends WebSecurityConfigurerAdapter
          *   2) 인증 + 특정 롤을 가진 사용자만 접속 가능 패스 설정
          *   3) 나머지는 인증 후 접속 가능토록 설정
          */
+        List<ZthmCommonCode> zthmCommonCodeList = zthmCommonCodeRepository.findByCodeGroupIdAndIsEnable("ROLE", true);
+        for (ZthmCommonCode zthmCommonCode : zthmCommonCodeList){
+            List<ZthmPage> zthmPageList = zthmPageRepository.findByRoleIdAndIsEnable(zthmCommonCode.getCodeId(), true);
+            List<String> pageStringList = new ArrayList<>();
+            for (ZthmPage zthmPage : zthmPageList){
+                pageStringList.add(zthmPage.getPagePath());
+            }
+            String[] authorities = pageStringList.toArray(new String[0]);
+            http.authorizeRequests().antMatchers(authorities).hasRole(zthmCommonCode.getCodeId().toString());
+        }
+
         http
                 .authorizeRequests() // 접근에 대한 인증 설정
                     .antMatchers("/loginForm", "/joinForm", "/join", "/h2-console/**").permitAll() // 누구나 접근 허용
-                    .antMatchers("/", "index").hasRole("USER") // USER, ADMIN만 접근 가능
-                    .antMatchers("/user").hasRole("FAMILY") // ADMIN만 접근 가능
                     .anyRequest().authenticated();
 
         /**
@@ -129,7 +147,7 @@ public class MyWebSecurityConfigurerAdapter extends WebSecurityConfigurerAdapter
                         }else{
                             errMsg = "UnKnown error - "+exp.getMessage();
                         }
-                        res.sendRedirect("/login");
+                        res.sendRedirect("loginForm");
                     })
                     .permitAll();
 
