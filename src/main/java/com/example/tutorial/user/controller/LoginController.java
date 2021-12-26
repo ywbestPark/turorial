@@ -6,7 +6,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
@@ -28,12 +27,12 @@ public class LoginController {
 
     @GetMapping({"", "/"})
     public String index(Model model) {
-        SecurityContext securityContext = SecurityContextHolder.getContext();
-        log.info("username {} "+securityContext.getAuthentication().getName());
-        log.info("role {} "+securityContext.getAuthentication().getAuthorities());
-
-        model.addAttribute("message", "You are logged in as "
-                + securityContext.getAuthentication().getName());
+//        SecurityContext securityContext = SecurityContextHolder.getContext();
+//        log.info("username {} "+securityContext.getAuthentication().getName());
+//        log.info("role {} "+securityContext.getAuthentication().getAuthorities());
+//
+//        model.addAttribute("message", "You are logged in as "
+//                + securityContext.getAuthentication().getName());
 
         return "redirect:/index.html";
     }

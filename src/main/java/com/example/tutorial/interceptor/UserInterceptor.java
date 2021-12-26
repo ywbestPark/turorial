@@ -16,8 +16,12 @@ public class UserInterceptor implements HandlerInterceptor {
     public boolean preHandle(HttpServletRequest request,HttpServletResponse response,Object handler) throws Exception {
         log.info("[ preHandle ]");
         SecurityContext securityContext = SecurityContextHolder.getContext();
-        log.info("username : "+securityContext.getAuthentication().getName());
-        log.info("role : "+securityContext.getAuthentication().getAuthorities());
+        log.info("securityContext {} "+securityContext.toString());
+        if(securityContext.getAuthentication()!=null){
+            log.info("username : "+securityContext.getAuthentication().getName());
+            log.info("role : "+securityContext.getAuthentication().getAuthorities());
+        }
+
 
         return true;
     }
