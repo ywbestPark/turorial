@@ -1,8 +1,10 @@
 package com.example.tutorial;
 
+import com.example.tutorial.interceptor.UserInterceptor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.web.servlet.view.MustacheViewResolver;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.ViewResolverRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
@@ -32,5 +34,12 @@ public class MyWebMvcConfigurer implements WebMvcConfigurer {
     private void exposeDirectory(String dirName, ResourceHandlerRegistry registry) {
         if (dirName.startsWith("../")) dirName = dirName.replace("../", "");
         registry.addResourceHandler("/" + dirName + "/**").addResourceLocations("file:/"+ multiPathPath + "/");
+    }
+
+    @Override
+    public void addInterceptors(InterceptorRegistry registry) {
+        registry.addInterceptor(new UserInterceptor())
+                .addPathPatterns("/*") // 해당 경로에 접근하기 전에 인터셉터가 가로챈다.
+                .excludePathPatterns("/loginForm"); // 해당 경로는 인터셉터가 가로채지 않는다.
     }
 }
