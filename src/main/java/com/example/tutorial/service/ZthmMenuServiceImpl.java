@@ -2,6 +2,7 @@ package com.example.tutorial.service;
 
 import com.example.tutorial.entity.ZthmMenu;
 import com.example.tutorial.repository.ZthmMenuRepository;
+import com.example.tutorial.user.dto.SessionUser;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.tika.utils.StringUtils;
@@ -9,6 +10,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
+import javax.servlet.http.HttpSession;
 import java.util.*;
 
 @Service
@@ -19,7 +21,7 @@ public class ZthmMenuServiceImpl implements ZthmMenuService{
     private String username;
 
     @Override
-    public String getMenu() {
+    public String getMenu(HttpSession httpSession) {
         List<ZthmMenu> zthmMenuList = zthmMenuRepository.findAll();
 
         Collections.sort(zthmMenuList, new ZthmMenuComparator());
@@ -29,7 +31,8 @@ public class ZthmMenuServiceImpl implements ZthmMenuService{
             //로그 아웃의 경우 사용자 이름이 들어가야 하므로 메뉴테이블에는 빈값으로 저장하고 여기서 값을 넣어 준다.
             if(StringUtils.isBlank(zthmMenu.getMenuName())){
                 Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-                username = authentication.getName();
+//                username = authentication.getName();
+                username = ((SessionUser) httpSession.getAttribute("userInfo")).getName();
                 zthmMenu.setMenuName(username);
             }
             Long parentId = zthmMenu.getParentId();

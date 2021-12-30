@@ -4,11 +4,13 @@ import com.example.tutorial.entity.ZthmCommonCode;
 import com.example.tutorial.entity.ZthmPage;
 import com.example.tutorial.repository.ZthmCommonCodeRepository;
 import com.example.tutorial.repository.ZthmPageRepository;
+import com.example.tutorial.user.service.CustomOAuth2UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.web.servlet.ServletListenerRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.domain.AuditorAware;
+import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -26,20 +28,20 @@ import java.util.ArrayList;
 import java.util.List;
 
 @EnableWebSecurity
-@EnableGlobalMethodSecurity(securedEnabled=true, prePostEnabled=true)
+@EnableGlobalMethodSecurity(securedEnabled=true, prePostEnabled=true, jsr250Enabled = true)
 @RequiredArgsConstructor
 @Configuration
-//@EnableJpaAuditing // 디폴트로 세팅되어 있는거 같음
+@EnableJpaAuditing
 public class MyWebSecurityConfigurerAdapter extends WebSecurityConfigurerAdapter {
     private final ZthmCommonCodeRepository zthmCommonCodeRepository;
     private final ZthmPageRepository zthmPageRepository;
+    private final CustomOAuth2UserService customOAuth2UserService;
 
     @Bean
     public AuditorAware<String> auditorProvider() {
         return new AuditorAwareImpl();
     }
 
-    // 암호화 방식 빈(Bean) 생성
     @Bean
     public BCryptPasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
@@ -47,9 +49,7 @@ public class MyWebSecurityConfigurerAdapter extends WebSecurityConfigurerAdapter
 
     @Override
     public void configure(WebSecurity web) {
-        // static 하위 파일 목록(css, js, img) 인증 무시
         web.ignoring().antMatchers("/css/**", "/js/**", "/img/**", "/assets/**", "/layout/**", "/*.html");
-//        web.ignoring().antMatchers("/resources/**").anyRequest();
     }
 
 //    @Bean
@@ -151,7 +151,7 @@ public class MyWebSecurityConfigurerAdapter extends WebSecurityConfigurerAdapter
                     })
                     .permitAll();
 
-        http.oauth2Login();
+        http.oauth2Login().userInfoEndpoint().userService(customOAuth2UserService);
 
         /**
          * 6.로그아웃 설정

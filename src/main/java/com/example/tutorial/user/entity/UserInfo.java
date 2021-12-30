@@ -2,13 +2,13 @@ package com.example.tutorial.user.entity;
 
 import com.example.tutorial.entity.BaseEntity;
 import lombok.*;
+import org.hibernate.annotations.DynamicInsert;
 
 import javax.persistence.*;
 
 @Entity
-@ToString
-@Getter
-@Setter
+@DynamicInsert
+@Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
@@ -16,7 +16,7 @@ public class UserInfo extends BaseEntity {
     // PK
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private Long id;
 
     // 사용자명
     @Column(unique=true)
@@ -32,7 +32,15 @@ public class UserInfo extends BaseEntity {
     private String role;
 
     // enabled / disabled
-    private boolean isEnabled;
+//    private boolean isEnabled;
+
+    private String picture;
+
+    public UserInfo update(String name, String picture){
+        this.username = name;
+        this.picture = picture;
+        return this;
+    }
 
 //    // 계정 생성일
 //    @CreationTimestamp private LocalDateTime createdDate;
