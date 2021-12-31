@@ -123,7 +123,11 @@ public class ImageController {
 
                 message = "Uploaded the file successfully: " + file.getOriginalFilename();
 
-                ImageEntity imageEntity = new ImageEntity(null, (String)param.get("title"), (String)param.get("description"), "/user-photos/" + new_file_name);
+                ImageEntity imageEntity = ImageEntity.builder()
+                                                .title((String)param.get("title"))
+                                                .description((String)param.get("description"))
+                                                .imagePath("/user-photos/" + new_file_name)
+                                                .build();
                 imageService.save(imageEntity);
 
             } catch (Exception e) {

@@ -1,13 +1,14 @@
 package com.example.tutorial;
 
-import com.example.tutorial.user.entity.UserInfo;
 import lombok.NonNull;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.AuditorAware;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 
 import java.util.Optional;
 
+@Slf4j
 public class AuditorAwareImpl implements AuditorAware<String> {
     @Override
     @NonNull
@@ -16,7 +17,7 @@ public class AuditorAwareImpl implements AuditorAware<String> {
         if (null == authentication || !authentication.isAuthenticated()) {
             return null;
         }
-        UserInfo userInfo = (UserInfo) authentication.getPrincipal();
-        return Optional.of(userInfo.getUsername());
+        log.info("Jpa CreatedBy User {} ", authentication.getName());
+        return Optional.of(authentication.getName());
     }
 }

@@ -1,7 +1,6 @@
 package com.example.tutorial.controller;
 
 import com.example.tutorial.service.ZthmMenuService;
-import com.example.tutorial.user.dto.SessionUser;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
@@ -21,9 +20,6 @@ public class ZthmMenuController {
 
     @RequestMapping("/")
     public String getMenu(){
-        SessionUser sessionUser = (SessionUser) httpSession.getAttribute("userInfo");
-//        SessionUser sessionUser = (SessionUser) SessionScopeUtil.getAttribute("userInfo");
-        log.info("userInfo From HttpSession", sessionUser.toString());
-        return zthmMenuService.getMenu(httpSession);
+        return zthmMenuService.getMenu();
     }
 }

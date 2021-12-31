@@ -153,7 +153,7 @@ debugger;
               data : JSON.stringify(data)
           }).done(function () {
               alert('update success');
-              window.location.href = '/image';
+              window.location.href = '/image?page=0&size=9&sort=modifiedDate,desc';
               loadingBarHide();
           }).fail(function (error) {
               alert(JSON.stringify(error));

@@ -1,22 +1,19 @@
 package com.example.tutorial.user.service;
 
+import com.example.tutorial.user.dto.CustomOAuth2User;
 import com.example.tutorial.user.dto.OAuthAttributes;
-import com.example.tutorial.user.dto.SessionUser;
 import com.example.tutorial.user.entity.UserInfo;
 import com.example.tutorial.user.repository.UserInfoRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserService;
 import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequest;
 import org.springframework.security.oauth2.client.userinfo.OAuth2UserService;
 import org.springframework.security.oauth2.core.OAuth2AuthenticationException;
-import org.springframework.security.oauth2.core.user.DefaultOAuth2User;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpSession;
-import java.util.Collections;
 
 @Service
 @RequiredArgsConstructor
@@ -38,12 +35,7 @@ public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
         // OAuth2UserService
         OAuthAttributes attributes = OAuthAttributes.of(registrationId, userNameAttributeName, oAuth2User.getAttributes());
         UserInfo userInfo = saveOrUpdate(attributes);
-//        SessionScopeUtil.setAttribute("userInfo", new SessionUser(userInfo));
-        httpSession.setAttribute("userInfo", new SessionUser(userInfo)); // SessionUser (직렬화된 dto 클래스 사용)
-
-        return new DefaultOAuth2User(Collections.singleton(new SimpleGrantedAuthority(userInfo.getRole())),
-                attributes.getAttributes(),
-                attributes.getNameAttributeKey());
+        return new CustomOAuth2User(oAuth2User, userInfo);
     }
 
     // 유저 생성 및 수정 서비스 로직

@@ -6,6 +6,7 @@ import com.example.tutorial.repository.ZthmCommonCodeRepository;
 import com.example.tutorial.repository.ZthmPageRepository;
 import com.example.tutorial.user.service.CustomOAuth2UserService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.web.servlet.ServletListenerRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -18,12 +19,18 @@ import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.session.SessionRegistry;
 import org.springframework.security.core.session.SessionRegistryImpl;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.session.HttpSessionEventPublisher;
 
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -32,6 +39,7 @@ import java.util.List;
 @RequiredArgsConstructor
 @Configuration
 @EnableJpaAuditing
+@Slf4j
 public class MyWebSecurityConfigurerAdapter extends WebSecurityConfigurerAdapter {
     private final ZthmCommonCodeRepository zthmCommonCodeRepository;
     private final ZthmPageRepository zthmPageRepository;
@@ -151,7 +159,20 @@ public class MyWebSecurityConfigurerAdapter extends WebSecurityConfigurerAdapter
                     })
                     .permitAll();
 
-        http.oauth2Login().userInfoEndpoint().userService(customOAuth2UserService);
+        http.oauth2Login()
+                .userInfoEndpoint()
+                .userService(customOAuth2UserService)
+                .and()
+                .successHandler(new AuthenticationSuccessHandler() {
+                    @Override
+                    public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
+                                                        Authentication authentication) throws IOException, ServletException {
+                        log.info("userInfo {}", authentication.getPrincipal().toString());
+                        log.info("authentication {}", authentication.toString());
+                        log.info("authentication Name {}", authentication.getName());
+                        response.sendRedirect("/index.html");
+                    }
+                });
 
         /**
          * 6.로그아웃 설정
