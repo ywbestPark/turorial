@@ -1,8 +1,6 @@
 package com.example.tutorial.interceptor;
 
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.security.core.context.SecurityContext;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.csrf.CsrfToken;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
@@ -14,15 +12,6 @@ import javax.servlet.http.HttpServletResponse;
 public class UserInterceptor implements HandlerInterceptor {
 
     public boolean preHandle(HttpServletRequest request,HttpServletResponse response,Object handler) throws Exception {
-        log.info("[ preHandle ]");
-        SecurityContext securityContext = SecurityContextHolder.getContext();
-        log.info("securityContext {} "+securityContext.toString());
-        if(securityContext.getAuthentication()!=null){
-            log.info("username : "+securityContext.getAuthentication().getName());
-            log.info("role : "+securityContext.getAuthentication().getAuthorities());
-        }
-
-
         return true;
     }
 

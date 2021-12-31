@@ -2,6 +2,7 @@ package com.example.tutorial.image.controller;
 
 import com.example.tutorial.image.entity.ImageEntity;
 import com.example.tutorial.image.service.ImageService;
+import com.example.tutorial.user.dto.CustomOAuth2User;
 import com.ywbest.message.ResponseMessage;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.tika.Tika;
@@ -10,6 +11,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.MimeTypeUtils;
@@ -123,7 +125,20 @@ public class ImageController {
 
                 message = "Uploaded the file successfully: " + file.getOriginalFilename();
 
-                ImageEntity imageEntity = new ImageEntity(null, (String)param.get("title"), (String)param.get("description"), "/user-photos/" + new_file_name);
+                CustomOAuth2User customOAuth2User = null;
+                if(SecurityContextHolder.getContext().getAuthentication().getPrincipal()!=null){
+                    if(SecurityContextHolder.getContext().getAuthentication().getPrincipal() instanceof CustomOAuth2User){
+                        customOAuth2User = (CustomOAuth2User)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+                    }
+                }
+
+                ImageEntity imageEntity = ImageEntity.builder()
+                                                .title((String)param.get("title"))
+                                                .description((String)param.get("description"))
+                                                .imagePath("/user-photos/" + new_file_name)
+                                                .userImagePath(customOAuth2User.getPicture())
+                                                .build();
+
                 imageService.save(imageEntity);
 
             } catch (Exception e) {

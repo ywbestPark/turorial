@@ -1,6 +1,7 @@
 package com.example.tutorial.entity;
 
 import lombok.Data;
+import org.hibernate.annotations.DynamicInsert;
 import org.springframework.data.annotation.*;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
@@ -13,6 +14,7 @@ import java.time.LocalDateTime;
 @Data
 @MappedSuperclass
 @EntityListeners(AuditingEntityListener.class)
+@DynamicInsert
 public abstract class BaseEntity {
 
     @Transient
@@ -30,16 +32,20 @@ public abstract class BaseEntity {
     @LastModifiedDate
     private LocalDateTime modifiedDate;
 
-    @CreatedBy
-    @Column(updatable = false, columnDefinition = "varchar(255) default 'System'")
-    private String createdBy;
+//    private String createdBy = "system";
+//    private String modifiedBy = "system";
+    private boolean isEnable = true;
 
+    @CreatedBy
+    @Column(updatable = false, columnDefinition = "varchar(255) default 'system'")
+    private String createdBy;
+//
     @LastModifiedBy
-    @Column(columnDefinition = "varchar(255) default 'System'")
+    @Column(columnDefinition = "varchar(255) default 'system'")
     private String modifiedBy;
 
-    @Column(columnDefinition = "varchar(255) default 'true'")
-    private boolean isEnable;
+//    @Column(columnDefinition = "varchar(255) default 'true'")
+//    private boolean isEnable;
 
     public LocalDateTime getCreatedDate() {
         return createdDate;

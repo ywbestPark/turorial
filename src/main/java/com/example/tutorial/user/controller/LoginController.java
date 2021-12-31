@@ -1,5 +1,6 @@
 package com.example.tutorial.user.controller;
 
+import com.example.tutorial.user.dto.SessionUser;
 import com.example.tutorial.user.entity.UserInfo;
 import com.example.tutorial.user.repository.UserInfoRepository;
 import lombok.extern.slf4j.Slf4j;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.security.Principal;
 
 @Slf4j
@@ -24,6 +26,7 @@ public class LoginController {
 
     @Autowired private UserInfoRepository userRepository; // 글 아래에서 생성할 예정
     @Autowired private BCryptPasswordEncoder passwordEncoder; // 시큐리티에서 빈(Bean) 생성할 예정
+    @Autowired private HttpSession httpSession;
 
     @GetMapping({"", "/"})
     public String index(Model model) {
@@ -33,7 +36,7 @@ public class LoginController {
 //
 //        model.addAttribute("message", "You are logged in as "
 //                + securityContext.getAuthentication().getName());
-
+        SessionUser user = (SessionUser) httpSession.getAttribute("userInfo");
         return "redirect:/index.html";
     }
 
@@ -78,7 +81,7 @@ public class LoginController {
      */
     @PostMapping("join")
     public String join(UserInfo userInfo) {
-        userInfo.setEnabled(false);
+        userInfo.setEnable(true);
         userInfo.setPassword(passwordEncoder.encode(userInfo.getPassword()));
         userRepository.save(userInfo);
         return "redirect:/loginForm";
