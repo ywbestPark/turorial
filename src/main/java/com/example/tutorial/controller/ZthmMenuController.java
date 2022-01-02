@@ -20,6 +20,6 @@ public class ZthmMenuController {
 
     @RequestMapping("/")
     public String getMenu(){
-        return zthmMenuService.getMenu();
+        return zthmMenuService.getMenuString();
     }
 }

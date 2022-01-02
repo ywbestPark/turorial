@@ -1,0 +1,52 @@
+{{>layout/header}}
+
+<!-- Page Content-->
+<section class="py-5">
+    <div class="text-center mb-5">
+        <h1 class="fw-bolder">Menu</h1>
+        <p class="lead fw-normal text-muted mb-0">New Menu</p>
+    </div>
+    <div class="bg-light rounded-3 py-5 px-4 px-md-5 mb-5">
+        <div class="row gx-5 justify-content-center">
+            <div class="col-lg-8 col-xl-6">
+                    <form id="form" enctype="multipart/form-data">
+                        <div class="d-grid mb-3"><a href="/admin/menu_page" role="button" class="btn btn-primary btn-lg">Lists</a></div>
+                        <div class="form-group mb-3">
+                            <label for="parentId">parentId</label>
+                            <input type="text" class="form-control" id="parentId" name="parentId" value="">
+                        </div>
+                        <div class="form-group mb-3">
+                            <label for="level">level</label>
+                            <input type="text" class="form-control" id="level" name="level" value=""></input>
+                        </div>
+                        <div class="form-group mb-3">
+                            <label for="menuOrder">menuOrder</label>
+                            <input type="text" class="form-control" id="menuOrder" name="menuOrder" value=""></input>
+                        </div>
+                        <div class="form-group mb-3">
+                            <label for="menuName">menuName</label>
+                            <input type="text" class="form-control" id="menuName" name="menuName" value=""></input>
+                        </div>
+                        <div class="form-group mb-3">
+                            <label for="description">menuPath</label>
+                            <input type="text" class="form-control" id="menuPath" name="menuPath" value=""></input>
+                        </div>
+                        <div class="form-group mb-3">
+                            <label for="enable">enable</label>
+                            <input type="text" class="form-control" id="enable" name="enable" value=""></input>
+                        </div>
+                        <div class="d-grid mb-3">
+                            <button type="button" class="btn btn-primary btn-lg" id="btn-menu-create">
+                                <span class="spinner-border spinner-border-sm" id="spinner-create" role="status" aria-hidden="true"></span>
+                                Create
+                            </button>
+                        </div>
+                    </form>
+            </div>
+        </div>
+    </div>
+</section>
+
+<script src="/js/admin/menu.js"></script>
+
+{{>layout/footer}}
