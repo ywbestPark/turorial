@@ -7,13 +7,17 @@
         <script type="text/javascript" language="javascript" src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.min.js"></script>
         <script type="text/javascript" class="init">
             $(document).ready(function() {
-                $('#example').DataTable();
+                $('#example').DataTable({
+                   lengthMenu: [10,20,30,40,50],
+                   displayLength: 20,
+                   scrollX: true
+                });
             } );
         </script>
         <div class="container-fluid my-3">
             <div class="row align-items-center">
                 <div class="col col-9">
-                    <h2>Board Lists</h2>
+                    <h2>ToDo Lists</h2>
                 </div>
                 <div class="col col-3">
                     <a href="/board/new" role="button" class="btn btn-primary btn-sm">NEW</a>

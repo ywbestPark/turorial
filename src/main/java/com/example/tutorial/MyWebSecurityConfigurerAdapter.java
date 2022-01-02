@@ -57,7 +57,7 @@ public class MyWebSecurityConfigurerAdapter extends WebSecurityConfigurerAdapter
 
     @Override
     public void configure(WebSecurity web) {
-        web.ignoring().antMatchers("/css/**", "/js/**", "/img/**", "/assets/**", "/layout/**", "/*.html");
+        web.ignoring().antMatchers("/css/**", "/js/**", "/img/**", "/assets/**");
     }
 
 //    @Bean
@@ -125,7 +125,7 @@ public class MyWebSecurityConfigurerAdapter extends WebSecurityConfigurerAdapter
 
         http
                 .authorizeRequests() // 접근에 대한 인증 설정
-                    .antMatchers("/loginForm", "/joinForm", "/join", "/h2-console/**").permitAll() // 누구나 접근 허용
+                    .antMatchers("/loginForm", "/joinForm", "/join", "/h2-console/**", "/error/**").permitAll() // 누구나 접근 허용
                     .anyRequest().authenticated();
 
         /**
@@ -143,19 +143,22 @@ public class MyWebSecurityConfigurerAdapter extends WebSecurityConfigurerAdapter
                     .loginProcessingUrl("/signin")
                     .successHandler((req, res, auth)->{
                         for (GrantedAuthority authority : auth.getAuthorities()){
-                            System.out.println("Authority Information : "+authority.getAuthority());
+                            log.info("Authority Information {} ", authority.getAuthority());
                         }
-                        System.out.println(auth.getName());
+                        log.info("getName {} ",auth.getName());
                         res.sendRedirect("/");
                     })
-                    .failureHandler((req, res, exp)->{
+                    .failureHandler((request, response, exception)->{
                         String errMsg = "";
-                        if(exp.getClass().isAssignableFrom(BadCredentialsException.class)){
+                        if(exception.getClass().isAssignableFrom(BadCredentialsException.class)){
                             errMsg = "Invalid username or password";
                         }else{
-                            errMsg = "UnKnown error - "+exp.getMessage();
+                            errMsg = "UnKnown error - "+exception.getMessage();
                         }
-                        res.sendRedirect("loginForm");
+                        log.info("Auth Error {}", errMsg);
+//                        request.setAttribute("errMsg", errMsg);
+//                        request.getRequestDispatcher("error/403").forward(request, response);
+                        response.sendRedirect("/loginForm");
                     })
                     .permitAll();
 

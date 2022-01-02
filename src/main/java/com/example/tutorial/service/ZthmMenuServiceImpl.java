@@ -19,7 +19,7 @@ public class ZthmMenuServiceImpl implements ZthmMenuService{
     private String username;
 
     @Override
-    public String getMenu() {
+    public String getMenuString() {
         List<ZthmMenu> zthmMenuList = zthmMenuRepository.findAll();
 
         Collections.sort(zthmMenuList, new ZthmMenuComparator());
@@ -69,6 +69,40 @@ public class ZthmMenuServiceImpl implements ZthmMenuService{
         log.info(stringBuilder.toString());
 
         return stringBuilder.toString();
+    }
+
+    public List<ZthmMenu> getMenuList(){
+        return zthmMenuRepository.findAll();
+    }
+
+    @Override
+    public ZthmMenu getMenu(Long id) {
+        return zthmMenuRepository.getById(id);
+    }
+
+    @Override
+    public ZthmMenu update(ZthmMenu zthmMenu) {
+        ZthmMenu zthmMenuNew = null;
+        Optional<ZthmMenu> optionalZthmMenu = zthmMenuRepository.findById(zthmMenu.getId());
+        if(optionalZthmMenu.isPresent()){
+            zthmMenuNew = zthmMenuRepository.save(zthmMenu);
+        }else{
+            //no data error 리턴
+        }
+        return zthmMenuNew;
+    }
+
+    @Override
+    public void delete(Long id) {
+        zthmMenuRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("no data id=" + id));
+
+        zthmMenuRepository.deleteById(id);
+    }
+
+    @Override
+    public ZthmMenu save(ZthmMenu zthmMenu) {
+        return zthmMenuRepository.save(zthmMenu);
     }
 
     private void retrieve(ZthmMenu current, Map<Long, List<ZthmMenu>> zthmMenuMap, StringBuilder stringBuilder) {

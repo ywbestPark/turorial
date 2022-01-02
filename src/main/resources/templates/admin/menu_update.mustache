@@ -1,0 +1,67 @@
+{{>layout/header}}
+
+<!-- Page Content-->
+<section class="py-5">
+    <div class="text-center mb-5">
+        <h1 class="fw-bolder">Menu</h1>
+        <p class="lead fw-normal text-muted mb-0">Update Menu</p>
+    </div>
+    <div class="bg-light rounded-3 py-5 px-4 px-md-5 mb-5">
+        <div class="row gx-5 justify-content-center">
+            <div class="col-lg-8 col-xl-6">
+                {{#menu}}
+                    <form id="form" enctype="multipart/form-data">
+                        <div class="d-grid mb-3"><a href="/admin/menu_page" role="button" class="btn btn-primary btn-lg">Lists</a></div>
+                        <input type="hidden" id="id" name="id" value="{{id}}">
+                        <div class="form-group mb-3">
+                            <label for="parentId">parentId</label>
+                            {{#parentId}}<input type="text" class="form-control" id="parentId" name="parentId" value="{{parentId}}">{{/parentId}}
+                            {{^parentId}}<input type="text" class="form-control" id="parentId" name="parentId" value="">{{/parentId}}
+                        </div>
+                        <div class="form-group mb-3">
+                            <label for="level">level</label>
+                            {{#level}}<input type="text" class="form-control" id="level" name="level" value="{{level}}">{{/level}}
+                            {{^level}}<input type="text" class="form-control" id="level" name="level" value=""></input>{{/level}}
+                        </div>
+                        <div class="form-group mb-3">
+                            <label for="menuOrder">menuOrder</label>
+                            {{#menuOrder}}<input type="text" class="form-control" id="menuOrder" name="menuOrder" value="{{menuOrder}}">{{/menuOrder}}
+                            {{^menuOrder}}<input type="text" class="form-control" id="menuOrder" name="menuOrder" value=""></input>{{/menuOrder}}
+                        </div>
+                        <div class="form-group mb-3">
+                            <label for="menuName">menuName</label>
+                            {{#menuName}}<input type="text" class="form-control" id="menuName" name="menuName" value="{{menuName}}">{{/menuName}}
+                            {{^menuName}}<input type="text" class="form-control" id="menuName" name="menuName" value=""></input>{{/menuName}}
+                        </div>
+                        <div class="form-group mb-3">
+                            <label for="description">menuPath</label>
+                            {{#menuPath}}<input type="text" class="form-control" id="menuPath" name="menuPath" value="{{menuPath}}">{{/menuPath}}
+                            {{^menuPath}}<input type="text" class="form-control" id="menuPath" name="menuPath" value=""></input>{{/menuPath}}
+                        </div>
+                        <div class="form-group mb-3">
+                            <label for="enable">enable</label>
+                            {{#enable}}<input type="text" class="form-control" id="enable" name="enable" value="{{enable}}">{{/enable}}
+                            {{^enable}}<input type="text" class="form-control" id="enable" name="enable" value=""></input>{{/enable}}
+                        </div>
+                        <div class="d-grid mb-3">
+                            <button type="button" class="btn btn-primary btn-lg" id="btn-menu-update">
+                                <span class="spinner-border spinner-border-sm" id="spinner-upate" role="status" aria-hidden="true"></span>
+                                Update
+                            </button>
+                        </div>
+                        <div class="d-grid">
+                            <button type="button" class="btn btn-danger btn-lg" id="btn-menu-delete">
+                                <span class="spinner-border spinner-border-sm" id="spinner-delete" role="status" aria-hidden="true"></span>
+                                Delete
+                            </button>
+                        </div>
+                    </form>
+                {{/menu}}
+            </div>
+        </div>
+    </div>
+</section>
+
+<script src="/js/admin/menu.js"></script>
+
+{{>layout/footer}}
