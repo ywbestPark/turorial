@@ -30,7 +30,7 @@ public class GlobalExceptionHandler {
         log.error("handleException",ex);
 ;
         zthmErrorService.save(ZthmError.builder()
-                                .errorMessage(ex.getMessage())
+                                .errorMessage("GlobalExceptionHandler Error : " + ex.getMessage())
                                 .build()
         );
         ErrorResponse response = new ErrorResponse(ErrorCode.INTER_SERVER_ERROR);
