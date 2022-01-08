@@ -1,7 +1,9 @@
 package com.example.tutorial.controller;
 
+import com.example.tutorial.entity.ZthmError;
 import com.example.tutorial.entity.ZthmMenu;
 import com.example.tutorial.service.UserInfoService;
+import com.example.tutorial.service.ZthmErrorService;
 import com.example.tutorial.service.ZthmMenuService;
 import com.example.tutorial.user.dto.UserInfoDTO;
 import com.example.tutorial.user.entity.UserInfo;
@@ -24,6 +26,7 @@ public class AdminController {
     public static final String REDIRECT_ADMIN_USER_LIST_PAGE = "redirect:/admin/user_list_page";
     private final ZthmMenuService zthmMenuService;
     private final UserInfoService userInfoService;
+    private final ZthmErrorService zthmErrorService;
 
     @GetMapping("/menu_page")
     public String menuPage(){
@@ -116,6 +119,16 @@ public class AdminController {
         log.info(userInfoDTO.toString());
         userInfoService.delete(userInfoDTO.getId());
         return REDIRECT_ADMIN_USER_LIST_PAGE;
+    }
+
+    @GetMapping("/error_list_page")
+    public String getErrorListPage(){
+        return "admin/errorList";
+    }
+
+    @GetMapping("/error_list")
+    public ResponseEntity<List<ZthmError>> getErrorList(){
+        return ResponseEntity.ok(zthmErrorService.getErrorList());
     }
 
 }
