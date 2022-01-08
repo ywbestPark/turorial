@@ -1,8 +1,10 @@
 package com.example.tutorial;
 
 import com.example.tutorial.entity.ZthmCommonCode;
+import com.example.tutorial.entity.ZthmError;
 import com.example.tutorial.entity.ZthmPage;
 import com.example.tutorial.repository.ZthmCommonCodeRepository;
+import com.example.tutorial.repository.ZthmErrorRepository;
 import com.example.tutorial.repository.ZthmPageRepository;
 import com.example.tutorial.user.service.CustomOAuth2UserService;
 import lombok.RequiredArgsConstructor;
@@ -44,6 +46,7 @@ public class MyWebSecurityConfigurerAdapter extends WebSecurityConfigurerAdapter
     private final ZthmCommonCodeRepository zthmCommonCodeRepository;
     private final ZthmPageRepository zthmPageRepository;
     private final CustomOAuth2UserService customOAuth2UserService;
+    private final ZthmErrorRepository zthmErrorRepository;
 
     @Bean
     public AuditorAware<String> auditorProvider() {
@@ -155,9 +158,9 @@ public class MyWebSecurityConfigurerAdapter extends WebSecurityConfigurerAdapter
                         }else{
                             errMsg = "UnKnown error - "+exception.getMessage();
                         }
-                        log.info("Auth Error {}", errMsg);
-//                        request.setAttribute("errMsg", errMsg);
-//                        request.getRequestDispatcher("error/403").forward(request, response);
+                        zthmErrorRepository.save(ZthmError.builder()
+                                .errorMessage("Login Error : "+exception.getMessage())
+                                .build());
                         response.sendRedirect("/loginForm");
                     })
                     .permitAll();
