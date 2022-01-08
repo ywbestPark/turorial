@@ -125,7 +125,7 @@ public class MyWebSecurityConfigurerAdapter extends WebSecurityConfigurerAdapter
 
         http
                 .authorizeRequests() // 접근에 대한 인증 설정
-                    .antMatchers("/loginForm", "/joinForm", "/join", "/h2-console/**", "/error/**").permitAll() // 누구나 접근 허용
+                    .antMatchers("/loginForm", "/joinForm", "/join", "/h2-console/**", "/error/**", "/favicon.ico", "/layout/test").permitAll() // 누구나 접근 허용
                     .anyRequest().authenticated();
 
         /**

@@ -5,6 +5,7 @@ import lombok.*;
 import org.hibernate.annotations.DynamicInsert;
 
 import javax.persistence.*;
+import java.io.Serializable;
 
 @Entity
 @DynamicInsert
@@ -12,7 +13,10 @@ import javax.persistence.*;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class UserInfo extends BaseEntity {
+public class UserInfo extends BaseEntity implements Serializable {
+
+    private static final long serialVersionUID = 658724990821020276L;
+
     // PK
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
