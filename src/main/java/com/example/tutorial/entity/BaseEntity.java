@@ -32,26 +32,13 @@ public abstract class BaseEntity {
     @LastModifiedDate
     private LocalDateTime modifiedDate;
 
-//    private String createdBy = "system";
-//    private String modifiedBy = "system";
-    private boolean isEnable = true;
-
     @CreatedBy
     @Column(updatable = false, columnDefinition = "varchar(255) default 'system'")
     private String createdBy;
-//
+
     @LastModifiedBy
     @Column(columnDefinition = "varchar(255) default 'system'")
     private String modifiedBy;
 
-//    @Column(columnDefinition = "varchar(255) default 'true'")
-//    private boolean isEnable;
-
-    public LocalDateTime getCreatedDate() {
-        return createdDate;
-    }
-
-    public LocalDateTime getModifiedDate() {
-        return modifiedDate;
-    }
+    private boolean isEnable = true;
 }

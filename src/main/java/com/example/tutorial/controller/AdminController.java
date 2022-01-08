@@ -1,11 +1,15 @@
 package com.example.tutorial.controller;
 
+import com.example.tutorial.entity.ZthmError;
 import com.example.tutorial.entity.ZthmMenu;
 import com.example.tutorial.service.UserInfoService;
+import com.example.tutorial.service.ZthmErrorService;
 import com.example.tutorial.service.ZthmMenuService;
+import com.example.tutorial.user.dto.UserInfoDTO;
 import com.example.tutorial.user.entity.UserInfo;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.hibernate.JDBCException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -19,8 +23,10 @@ import java.util.List;
 @RequiredArgsConstructor
 public class AdminController {
 
+    public static final String REDIRECT_ADMIN_USER_LIST_PAGE = "redirect:/admin/user_list_page";
     private final ZthmMenuService zthmMenuService;
     private final UserInfoService userInfoService;
+    private final ZthmErrorService zthmErrorService;
 
     @GetMapping("/menu_page")
     public String menuPage(){
@@ -58,8 +64,7 @@ public class AdminController {
     @ResponseBody
     public ZthmMenu update(@RequestBody ZthmMenu zthmMenu){
         log.info(zthmMenu.toString());
-        ZthmMenu zthmMenuNew = zthmMenuService.update(zthmMenu);
-        return zthmMenuNew;
+        return zthmMenuService.update(zthmMenu);
     }
 
     @DeleteMapping("/menu/{id}")
@@ -95,25 +100,35 @@ public class AdminController {
         return "admin/user";
     }
 
-    @PostMapping("/user")
-    public String userCreate(@ModelAttribute("userInfo") UserInfo userInfo){
-        log.info(userInfo.toString());
-        userInfoService.save(userInfo);
-        return "redirect:/admin/user_list_page";
-    }
+//    @PostMapping("/user")
+//    public String userCreate(@ModelAttribute("userInfo") UserInfoDTO userInfoDTO) throws JDBCException {
+//        log.info(userInfoDTO.toString());
+//        userInfoService.save(userInfoDTO);
+//        return REDIRECT_ADMIN_USER_LIST_PAGE;
+//    }
 
-    @PostMapping("/user/edit")
-    public String userUdate(@ModelAttribute("userInfo") UserInfo userInfo){
-        log.info(userInfo.toString());
-        userInfoService.update(userInfo);
-        return "redirect:/admin/user_list_page";
+    @PostMapping({"/user/edit", "/user"})
+    public String userUdate(@ModelAttribute("userInfo") UserInfoDTO userInfoDTO) throws JDBCException{
+        log.info(userInfoDTO.toString());
+        userInfoService.saveOrUpdate(userInfoDTO);
+        return REDIRECT_ADMIN_USER_LIST_PAGE;
     }
 
     @PostMapping("/user/delete")
-    public String userDelete(@ModelAttribute("userInfo") UserInfo userInfo){
-        log.info(userInfo.toString());
-        userInfoService.delete(userInfo.getId());
-        return "redirect:/admin/user_list_page";
+    public String userDelete(@ModelAttribute("userInfo") UserInfoDTO userInfoDTO){
+        log.info(userInfoDTO.toString());
+        userInfoService.delete(userInfoDTO.getId());
+        return REDIRECT_ADMIN_USER_LIST_PAGE;
+    }
+
+    @GetMapping("/error_list_page")
+    public String getErrorListPage(){
+        return "admin/errorList";
+    }
+
+    @GetMapping("/error_list")
+    public ResponseEntity<List<ZthmError>> getErrorList(){
+        return ResponseEntity.ok(zthmErrorService.getErrorList());
     }
 
 }

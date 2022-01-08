@@ -1,13 +1,14 @@
 package com.example.tutorial.service;
 
+import com.example.tutorial.user.dto.UserInfoDTO;
 import com.example.tutorial.user.entity.UserInfo;
 import com.example.tutorial.user.repository.UserInfoRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.hibernate.JDBCException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -22,8 +23,8 @@ public class UserInfoServiceImpl implements UserInfoService {
     }
 
     @Override
-    public UserInfo save(UserInfo userInfo) {
-        return userInfoRepository.save(userInfo);
+    public UserInfo save(UserInfoDTO userInfoDTO) throws JDBCException {
+        return userInfoRepository.save(userInfoDTO.toEntity());
     }
 
     @Override
@@ -32,14 +33,13 @@ public class UserInfoServiceImpl implements UserInfoService {
     }
 
     @Override
-    public void update(UserInfo userInfo) {
-        UserInfo userInfoNew = null;
-        Optional<UserInfo> optionalUserInfo = userInfoRepository.findById(userInfo.getId());
-        if(optionalUserInfo.isPresent()){
-            userInfoNew = userInfoRepository.save(userInfo);
-        }else{
-            //no data error 리턴
-        }
+    public UserInfo saveOrUpdate(UserInfoDTO userInfoDTO)  throws JDBCException {
+        UserInfo userInfo = userInfoRepository.findByUsername(userInfoDTO.getUsername())
+                .map(entity -> entity.updateInfo(userInfoDTO.isPasswordChange(), userInfoDTO))
+                .orElse(userInfoDTO.toEntity());
+                userInfoRepository.save(userInfo);
+
+        return userInfo;
     }
 
     @Override

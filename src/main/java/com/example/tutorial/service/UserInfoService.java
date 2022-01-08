@@ -1,13 +1,15 @@
 package com.example.tutorial.service;
 
+import com.example.tutorial.user.dto.UserInfoDTO;
 import com.example.tutorial.user.entity.UserInfo;
+import org.hibernate.JDBCException;
 
 import java.util.List;
 
-public interface UserInfoService {
+public interface UserInfoService{
     List<UserInfo> getUserList();
-    UserInfo save(UserInfo userInfo);
+    UserInfo save(UserInfoDTO userInfoDTO) throws JDBCException;
     UserInfo getUserById(Long id);
-    void update(UserInfo userInfo);
+    UserInfo saveOrUpdate(UserInfoDTO userInfoDTO)  throws JDBCException;
     void delete(Long id);
 }

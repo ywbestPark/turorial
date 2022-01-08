@@ -2,7 +2,7 @@ package com.example.tutorial.image.service;
 
 import com.example.tutorial.image.entity.ImageEntity;
 import com.example.tutorial.image.repository.ImageRepository;
-import com.ywbest.exception.NotFoundException;
+import com.example.tutorial.exception.NotFoundException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -11,7 +11,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 
-import static com.ywbest.exception.ErrorCode.NOT_FOUND;
+import static com.example.tutorial.exception.ErrorCode.NOT_FOUND;
 
 @Slf4j
 @Service
