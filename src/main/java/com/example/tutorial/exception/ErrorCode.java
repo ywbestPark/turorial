@@ -1,4 +1,4 @@
-package com.ywbest.exception;
+package com.example.tutorial.exception;
 
 import lombok.AllArgsConstructor;
 

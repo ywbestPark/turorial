@@ -1,11 +1,15 @@
 package com.example.tutorial.user.entity;
 
 import com.example.tutorial.entity.BaseEntity;
-import lombok.*;
+import com.example.tutorial.user.dto.UserInfoDTO;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.hibernate.annotations.DynamicInsert;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import javax.persistence.*;
-import java.io.Serializable;
 
 @Entity
 @DynamicInsert
@@ -13,9 +17,7 @@ import java.io.Serializable;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class UserInfo extends BaseEntity implements Serializable {
-
-    private static final long serialVersionUID = 658724990821020276L;
+public class UserInfo extends BaseEntity{
 
     // PK
     @Id
@@ -35,9 +37,6 @@ public class UserInfo extends BaseEntity implements Serializable {
     // 권한
     private String role;
 
-    // enabled / disabled
-//    private boolean isEnabled;
-
     private String picture;
 
     public UserInfo update(String name, String picture){
@@ -46,7 +45,18 @@ public class UserInfo extends BaseEntity implements Serializable {
         return this;
     }
 
-//    // 계정 생성일
-//    @CreationTimestamp private LocalDateTime createdDate;
+    public UserInfo updateInfo(boolean passwordChange, UserInfoDTO userInfoDTO) {
+        if(passwordChange){
+            BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
+            this.password = bCryptPasswordEncoder.encode(userInfoDTO.getPassword());
+        }
+
+        this.username = userInfoDTO.getUsername();
+        this.email = userInfoDTO.getEmail();
+        this.role = userInfoDTO.getRole();
+        this.setEnable(userInfoDTO.isEnable());
+
+        return  this;
+    }
 }
 
