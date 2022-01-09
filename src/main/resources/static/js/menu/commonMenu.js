@@ -1,5 +1,5 @@
 $(document).ready(function() {
-    debugger;
+    console.log('commonMenu.js Start!!');
     $.ajax({
         type: 'GET',
         url: '/menu/',
