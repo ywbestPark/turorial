@@ -1,6 +1,5 @@
 var main = {
    init : function () {
-       debugger;
        var _this = this;
        _this.include();
    },

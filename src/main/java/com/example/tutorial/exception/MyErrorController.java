@@ -29,29 +29,36 @@ public class MyErrorController implements ErrorController {
         model.addAttribute("path", request.getAttribute("javax.servlet.error.request_uri"));
         model.addAttribute("timestamp", new Date());
 
+        int statusCode = 0;
         if(status!=null){
             model.addAttribute("status", status);
-            int statusCode = Integer.valueOf(status.toString());
-
-            zthmErrorRepository.save(ZthmError.builder()
-                    .errorMessage("MyErrorController Error : " +
-                            "path ["+request.getAttribute("javax.servlet.error.request_uri")+"] "
-                            +"Status Code ["+statusCode+"]")
-                    .build());
-
-            if(statusCode== HttpStatus.NOT_FOUND.value()){
-                return "error/404";
-            }
-            if(statusCode== HttpStatus.FORBIDDEN.value()){
-                return "error/403";
-            }
+            statusCode = Integer.valueOf(status.toString());
         }
 
         Object exceptionObject = request.getAttribute("javax.servlet.error.exception");
+        String errorClassName = "";
+        String message = "";
         if(exceptionObject!=null){
             Throwable e = ((Exception) exceptionObject).getCause();
             model.addAttribute("exception", e.getClass().getName());
             model.addAttribute("message", e.getMessage());
+            errorClassName = e.getClass().getName();
+            message = e.getMessage();
+        }
+
+        zthmErrorRepository.save(ZthmError.builder()
+                .errorMessage("MyErrorController Error : " +
+                        "path : "+request.getAttribute("javax.servlet.error.request_uri")+", "
+                        +"Status Code : "+statusCode+", "
+                        +"Error Class : "+errorClassName+", "
+                        +"message : "+message)
+                .build());
+
+        if(statusCode== HttpStatus.NOT_FOUND.value()){
+            return "error/404";
+        }
+        if(statusCode== HttpStatus.FORBIDDEN.value()){
+            return "error/403";
         }
 
         return "error";

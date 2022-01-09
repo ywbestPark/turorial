@@ -1,5 +1,23 @@
 public class Root{
+	private response response; 
+}
+
+public class Response{
+	private header header; 
+	private body body; 
+}
+
+public class Header{
+	private String resultCode; 
+	private String resultMsg; 
+}
+
+public class Body{
+	private String dataType; 
 	private items items; 
+	private int pageNo; 
+	private int numOfRows; 
+	private int totalCount; 
 }
 
 public class Items{
@@ -7,25 +25,20 @@ public class Items{
 }
 
 public class Item{
-	private String id; 
-	private String type; 
-	private String name; 
-	private double ppu; 
-	private batters batters; 
-	private List<topping> topping; 
-}
-
-public class Batters{
-	private List<batter> batter; 
-}
-
-public class Batter{
-	private String id; 
-	private String type; 
-}
-
-public class Topping{
-	private String id; 
-	private String type; 
+	private String tm; 
+	private String thema; 
+	private String courseId; 
+	private String courseAreaId; 
+	private String courseAreaName; 
+	private String courseName; 
+	private int spotAreaId; 
+	private String spotAreaName; 
+	private String spotName; 
+	private int th3; 
+	private int wd; 
+	private int ws; 
+	private int sky; 
+	private int rhm; 
+	private int pop; 
 }
 

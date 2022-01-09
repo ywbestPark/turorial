@@ -1,0 +1,223 @@
+{{>layout/header}}
+
+<!-- Page Content-->
+<section class="py-5">
+    <!-- Required dataTable -->
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.3/css/jquery.dataTables.min.css">
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jszip/2.5.0/jszip.min.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.min.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/buttons/2.1.1/js/dataTables.buttons.min.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/buttons/2.1.1/js/buttons.colVis.min.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/buttons/2.1.1/js/buttons.html5.min.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/scroller/2.0.5/js/dataTables.scroller.min.js"></script>
+
+    <script type="text/javascript" class="init">
+
+
+                function changeCity(){
+                    console.log("changeCity() Start !!!");
+                    var cityValue = $("#inputCity option:selected").val();
+                    var target = $("#inputState");
+                    target.find('option').remove();
+                    $.ajax({
+                          url : "/project/city_code",
+                          data:{"codeGroupId":"course", "pCodeId":cityValue},
+                            type:'GET',
+                            dataType: 'text',
+                            success: function(response) {
+                                var parsed = $.parseJSON(response);
+                                if (parsed != null) {
+                                    $.each(parsed, function (i, jsonData) {
+                                        if(i==0){
+                                            target.append("<option selected value="+jsonData.codeId+">"+jsonData.codeName+"</option>");
+                                        }else{
+                                            target.append("<option value="+jsonData.codeId+">"+jsonData.codeName+"</option>");
+                                        }
+                                    });
+                                }
+                                changeSelect();
+                             }
+                    });
+
+                }
+
+                function changeCityCategory(){
+                    console.log("changeCityCategory() Start !!!");
+                    var cityCategoryValue = $("#inputCityCategory option:selected").val();
+                    var target = $("#inputCity");
+                    target.find('option').remove();
+                    $.ajax({
+                          url : "/project/city_code",
+                          data:{"codeGroupId":"city", "pCodeId":cityCategoryValue},
+                            type:'GET',
+                            dataType: 'text',
+                            success: function(response) {
+                                var parsed = $.parseJSON(response);
+                                if (parsed != null) {
+                                    $.each(parsed, function (i, jsonData) {
+                                        if(i==0){
+                                            target.append("<option selected value="+jsonData.codeId+">"+jsonData.codeName+"</option>");
+                                        }else{
+                                            target.append("<option value="+jsonData.codeId+">"+jsonData.codeName+"</option>");
+                                        }
+                                    });
+                                }
+                                changeCity();
+                             }
+                    });
+
+                }
+
+                function loadCityCategory(){
+                    console.log("loadCityCategory() Start !!!");
+                    var target = $("#inputCityCategory");
+                    target.find('option').remove();
+                    $.ajax({
+                          url : "/project/city_category_code",
+                          data:{"codeGroupId":"cityCategory"},
+                            type:'GET',
+                            dataType: 'text',
+                            success: function(response) {
+                                var parsed = $.parseJSON(response);
+                                if (parsed != null) {
+                                    $.each(parsed, function (i, jsonData) {
+                                        if(i==0){
+                                            target.append("<option selected value="+jsonData.codeId+">"+jsonData.codeName+"</option>");
+                                        }else{
+                                            target.append("<option value="+jsonData.codeId+">"+jsonData.codeName+"</option>");
+                                        }
+                                    });
+                                }
+                                changeCityCategory();
+                             }
+                    });
+                }
+
+                function changeSelect(){
+                    console.log("changeSelect() Start !!!");
+                    loadDataTable($("#inputState option:selected").val());
+                }
+
+                function loadDataTable(inputCourseId){
+                    console.log("loadDataTable() Start !!!");
+                    $('#tourTable').DataTable( {
+                        lengthChange: true,
+                        lengthMenu: [10,20,30,40,50],
+                        displayLength: 10,
+                        scrollX: true,
+                        ajax : {
+                            "url":"/project/tour_list",
+                            "type":"GET",
+                            "data": function (d) { // ajax 호출 시 입력 데이터 정의
+                                d.courseId = inputCourseId;
+                            },
+                            // datatables 가 Ajax로 데이터를 가져올 때는 기본적으로 최상위에 "data" 라는 키를 가진 형태이어야함
+                            // data를 최상위에 못 넣어 주는 경우 아래와 같이 ""로 선언하여 처음 부터 배열임을 지정해 주면 됨
+                            "dataSrc": ""
+                        },
+                        columns: [
+                            { data: "tm" },
+                            { data: "courseId" },
+                            { data: "thema" },
+                            { data: "courseName" },
+                            { data: "spotName" },
+                            { data: "courseAreaName" },
+                            { data: "spotAreaName" },
+                            { data: "th3" },
+                            { data: "wd" },
+                            { data: "ws" },
+                            { data: "sky",
+                                "render": function(data, type, row, meta){
+                                    if(data === 1){
+                                        data = '맑음';
+                                    }else if(data === 2){
+                                        data = '구름';
+                                    }else if(data === 3){
+                                        data = '흐림';
+                                    }else if(data === 4){
+                                        data = '비';
+                                    }else if(data === 5){
+                                        data = '소나기';
+                                    }else if(data === 6){
+                                        data = '비눈';
+                                    }else if(data === 7){
+                                        data = '눈비';
+                                    }else if(data === 8){
+                                        data = '눈';
+                                    }
+                                    return data;
+                                }
+                            },
+                            { data: "rhm" },
+                            { data: "pop" }
+                        ],
+                        bDestroy: true,
+                        order: [ [0, 'asc'] ]
+                    } );
+                }
+
+                var table;
+                $(document).ready(function() {
+                    loadCityCategory();
+                    loadDataTable(50);
+                } );
+    </script>
+
+    <div class="container-fluid my-3">
+        <div class="row g-3">
+            <div class="col-md-4">
+                <label for="inputCityCategory" class="form-label">도선택</label>
+                <select id="inputCityCategory" class="form-select" onchange="changeCityCategory()">
+                </select>
+            </div>
+            <div class="col-md-4">
+                <label for="inputCity" class="form-label">시군구선택</label>
+                <select id="inputCity" class="form-select" onchange="changeCity()">
+                    <option selected value="0">Choose...</option>
+                </select>
+            </div>
+            <div class="col-md-4">
+                <label for="inputState" class="form-label">코스선택</label>
+                <select id="inputState" class="form-select" onchange="changeSelect()">
+                    <option selected value="0">Choose...</option>
+                </select>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="container-fluid my-3">
+        <div class="row align-items-center">
+            <div class="col col-9">
+                <h2>Tour Lists</h2>
+            </div>
+        </div>
+    </div>
+
+    <hr>
+
+    <div class="container-fluid">
+        <table id="tourTable" class="display" cellspacing="0" width="100%">
+            <thead>
+            <tr>
+                <th>예보시각</th>
+                <th>코스ID</th>
+                <th>코스구분</th>
+                <th>코스명</th>
+                <th>관광지명</th>
+                <th>지역구분</th>
+                <th>지역명</th>
+                <th>3시간기온</th>
+                <th>풍향</th>
+                <th>풍속</th>
+                <th>하늘상태</th>
+                <th>습도</th>
+                <th>강수확률</th>
+            </tr>
+            </thead>
+        </table>
+    </div>
+
+</section>
+
+{{>layout/footer}}

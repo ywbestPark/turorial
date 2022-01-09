@@ -7,8 +7,6 @@ var main = {
         }
    });
 
-
-   debugger;
        var _this = this;
 
        $('#btn-save').on('click', function () {
