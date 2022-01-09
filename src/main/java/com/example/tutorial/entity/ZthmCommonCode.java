@@ -27,4 +27,5 @@ public class ZthmCommonCode extends BaseEntity{
     private String codeId;
     private String codeName;
     private String codeDescription;
+    private String PCodeId;
 }

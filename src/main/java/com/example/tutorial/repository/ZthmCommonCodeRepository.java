@@ -7,4 +7,5 @@ import java.util.List;
 
 public interface ZthmCommonCodeRepository extends JpaRepository<ZthmCommonCode, Long> {
     List<ZthmCommonCode> findByCodeGroupIdAndIsEnable(String codeGroupId, boolean isEnable);
+    List<ZthmCommonCode> findByCodeGroupIdAndIsEnableAndPCodeId(String codeGroupId, boolean isEnable, String PCodeId);
 }
