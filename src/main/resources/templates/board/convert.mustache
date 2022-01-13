@@ -1,79 +1,38 @@
 {{>layout/header}}
 
-<div class="container_custom">
-    <div class="item item1">
-        <textarea class="form-control" placeholder="Leave a comment here" id="floatingTextarea1" style="height: 20rem">
-            {
-	"items":
-		{
-			"item":
-				[
-					{
-						"id": "0001",
-						"type": "donut",
-						"name": "Cake",
-						"ppu": 0.55,
-						"batters":
-							{
-								"batter":
-									[
-										{ "id": "1001", "type": "Regular" },
-										{ "id": "1002", "type": "Chocolate" },
-										{ "id": "1003", "type": "Blueberry" },
-										{ "id": "1004", "type": "Devil's Food" }
-									]
-							},
-						"topping":
-							[
-								{ "id": "5001", "type": "None" },
-								{ "id": "5002", "type": "Glazed" },
-								{ "id": "5005", "type": "Sugar" },
-								{ "id": "5007", "type": "Powdered Sugar" },
-								{ "id": "5006", "type": "Chocolate with Sprinkles" },
-								{ "id": "5003", "type": "Chocolate" },
-								{ "id": "5004", "type": "Maple" }
-							]
-					},
-					{
-						"id": "0001",
-						"type": "donut",
-						"name": "Cake",
-						"ppu": 0.55,
-						"batters":
-							{
-								"batter":
-									[
-										{ "id": "1001", "type": "Regular" },
-										{ "id": "1002", "type": "Chocolate" },
-										{ "id": "1003", "type": "Blueberry" },
-										{ "id": "1004", "type": "Devil's Food" }
-									]
-							},
-						"topping":
-							[
-								{ "id": "5001", "type": "None" },
-								{ "id": "5002", "type": "Glazed" },
-								{ "id": "5005", "type": "Sugar" },
-								{ "id": "5007", "type": "Powdered Sugar" },
-								{ "id": "5006", "type": "Chocolate with Sprinkles" },
-								{ "id": "5003", "type": "Chocolate" },
-								{ "id": "5004", "type": "Maple" }
-							]
-					}
-
-				]
-		}
-}
-        </textarea>
-        <label for="floatingTextarea1">JsonString</label>
-    </div>
-    <div class="item item2">
-        <button type="button" class="btn btn-outline-success" id="btn-json-convert">Conversion</button>
-    </div>
-    <div class="item item3">
-        <textarea class="form-control" placeholder="Leave a comment here" id="floatingTextarea2" contenteditable="true" style="height: 20rem"></textarea>
-        <label for="floatingTextarea2">JavaCode</label>
-    </div>
-</div>
+    <section class="bg-light py-5">
+        <div class="container px-5 my-5">
+            <div class="container-fluid my-3">
+                <div class="text-center mb-5">
+                    <h1 class="fw-bolder">Converter</h1>
+                    <p class="lead fw-normal text-muted mb-0">DTO classes will be created from the input text</p>
+                </div>
+                <div class="row gx-5 justify-content-center">
+                    <div class="col-lg-6 col-xl-5">
+                        <div class="d-grid">
+                            <textarea class="form-control"
+                                      style="height:20rem"
+                                      placeholder="put xml or json text here&#13;&#10;&#13;&#10;(ex)&#13;&#10;<response>&#13;&#10; <header>&#13;&#10;  <resultCode>00</resultCode>&#13;&#10;  <resultMsg>success</resultMsg>&#13;&#10; </header>&#13;&#10; <body>&#13;&#10; </body>&#13;&#10;</response>"
+                                      id="floatingTextarea1"></textarea>
+                        </div>
+                    </div>
+                    <div class="col-lg-6 col-xl-2">
+                        <div class="d-grid">
+                            <button type="button" class="btn btn-outline-success" id="btn-json-convert">Conversion</button>
+                        </div>
+                    </div>
+                    <div class="col-lg-6 col-xl-5">
+                        <div class="card mb-5 mb-xl-0">
+                            <textarea class="form-control"
+                                      style="height:20rem"
+                                      placeholder="The result of conversion will be displayed here&#13;&#10;&#13;&#10;(ex)&#13;&#10;public class Root{&#13;&#10;	private header header;&#13;&#10;	private String body;&#13;&#10;}&#13;&#10;&#13;&#10;public class Header{&#13;&#10;	private String resultCode;&#13;&#10;	private String resultMsg;&#13;&#10;}"
+                                      id="floatingTextarea2"
+                                      contenteditable="true"></textarea>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
 
 {{>layout/footer}}
