@@ -87,6 +87,28 @@ public class RestRunnerTest {
         System.out.println("$$$$$$$$$$$$$$$$$$$$5");
     }
 
+    @Test
+    public void test4() throws URISyntaxException {
+
+        String url = "http://openapi.molit.go.kr:8081/OpenAPI_ToolInstallPackage/service/rest/RTMSOBJSvc/getRTMSDataSvcAptTrade?" +
+                "serviceKey=G8dsIOIinqIgxBio8kv6qyrYJ9OsQr%2F5PhyVheRm9NbJfGNNYQSUSKYZH%2BRlgmYs01YxjwihIRUKKyQE1j%2FO%2Fw%3D%3D" +
+                "&LAWD_CD=41115" +
+                "&DEAL_YMD=202201";
+
+        URI uri = new URI(url);
+
+        Mono<Root> tourStnVilageFcstDTOMono = webClient
+                .get()
+                .uri(uri)
+                .retrieve()
+                .bodyToMono(Root.class);
+
+        tourStnVilageFcstDTOMono.doOnNext(root ->
+                System.out.println(root.getResponse().getBody().getItems().toString())
+        ).block();
+        System.out.println("$$$$$$$$$$$$$$$$$$$$5");
+    }
+
 
 //    public WeatherWebClient() {
 //        this.weatherWebClient = WebClient.create("http://api.openweathermap.org/data/2.5/weather");

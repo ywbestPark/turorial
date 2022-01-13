@@ -118,6 +118,7 @@
                         columns: [
                             { data: "tm" },
                             { data: "thema" },
+                            { data: "courseId" },
                             { data: "courseName" },
                             { data: "spotName" },
                             { data: "courseAreaName" },
@@ -158,7 +159,6 @@
                 var table;
                 $(document).ready(function() {
                     loadCityCategory();
-                    loadDataTable(50);
                 } );
     </script>
 
@@ -201,6 +201,7 @@
             <tr>
                 <th>Time</th>
                 <th>CourseCategory</th>
+                <th>CourseId</th>
                 <th>CourseName</th>
                 <th>Tourist</th>
                 <th>Region</th>

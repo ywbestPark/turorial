@@ -1,19 +1,30 @@
 package com.ywbest.util;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.JsonNodeType;
+import com.fasterxml.jackson.dataformat.xml.XmlMapper;
 
 import java.io.BufferedWriter;
 import java.io.FileWriter;
+import java.io.IOException;
 import java.util.*;
 
 public class JsonToJavaCodeUtil {
 
-    public LinkedHashMap convertJsonStringToJsonNode(String json) throws JsonProcessingException {
+    public JsonNode convertXmlStringToJsonNode(String xmlString) throws IOException {
+        XmlMapper xmlMapper = new XmlMapper();
+        JsonNode node = xmlMapper.readTree(xmlString.getBytes());
+        return node;
+    }
+
+    public JsonNode convertJsonStringToJsonNode(String jsonString) throws IOException {
         ObjectMapper objectMapper = new ObjectMapper();
-        JsonNode jsonNode = objectMapper.readTree(json);
+        JsonNode node = objectMapper.readTree(jsonString.getBytes());
+        return node;
+    }
+
+    public LinkedHashMap convertJsonNodeToMap(JsonNode jsonNode) {
 
         LinkedHashMap<String, List<String>> objectMapList = new LinkedHashMap<>();
         List<String> lineList = new ArrayList<>();

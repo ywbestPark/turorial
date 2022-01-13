@@ -1,8 +1,4 @@
 public class Root{
-	private response response; 
-}
-
-public class Response{
 	private header header; 
 	private body body; 
 }
@@ -13,11 +9,10 @@ public class Header{
 }
 
 public class Body{
-	private String dataType; 
 	private items items; 
-	private int pageNo; 
-	private int numOfRows; 
-	private int totalCount; 
+	private String numOfRows; 
+	private String pageNo; 
+	private String totalCount; 
 }
 
 public class Items{
@@ -25,20 +20,20 @@ public class Items{
 }
 
 public class Item{
-	private String tm; 
-	private String thema; 
-	private String courseId; 
-	private String courseAreaId; 
-	private String courseAreaName; 
-	private String courseName; 
-	private int spotAreaId; 
-	private String spotAreaName; 
-	private String spotName; 
-	private int th3; 
-	private int wd; 
-	private int ws; 
-	private int sky; 
-	private int rhm; 
-	private int pop; 
+	private String 거래금액; 
+	private String 거래유형; 
+	private String 건축년도; 
+	private String 년; 
+	private String 법정동; 
+	private String 아파트; 
+	private String 월; 
+	private String 일; 
+	private String 전용면적; 
+	private String 중개사소재지; 
+	private String 지번; 
+	private String 지역코드; 
+	private String 층; 
+	private String 해제사유발생일; 
+	private String 해제여부; 
 }
 
