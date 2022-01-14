@@ -1,39 +1,3 @@
 public class Root{
-	private header header; 
-	private body body; 
-}
-
-public class Header{
-	private String resultCode; 
-	private String resultMsg; 
-}
-
-public class Body{
-	private items items; 
-	private String numOfRows; 
-	private String pageNo; 
-	private String totalCount; 
-}
-
-public class Items{
-	private List<item> item; 
-}
-
-public class Item{
-	private String 거래금액; 
-	private String 거래유형; 
-	private String 건축년도; 
-	private String 년; 
-	private String 법정동; 
-	private String 아파트; 
-	private String 월; 
-	private String 일; 
-	private String 전용면적; 
-	private String 중개사소재지; 
-	private String 지번; 
-	private String 지역코드; 
-	private String 층; 
-	private String 해제사유발생일; 
-	private String 해제여부; 
 }
 
