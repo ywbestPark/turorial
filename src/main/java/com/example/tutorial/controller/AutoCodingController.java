@@ -27,7 +27,27 @@ public class AutoCodingController {
 
     @PostMapping("/json/convert")
     @ResponseBody
-    public String boardCreate(@RequestParam Map<String, Object> param) throws IOException {
+    public LinkedHashMap<String, List<String>> convertDTO(@RequestParam Map<String, Object> param) throws IOException {
+        log.info(param.toString());
+        log.info(param.get("jsonString").toString());
+
+        JsonToJavaCodeUtil jsonToJavaCodeUtil = new JsonToJavaCodeUtil();
+
+        String inputString = param.get("jsonString").toString();
+        JsonNode jsonNode;
+        if(inputString.startsWith("<")){
+            jsonNode = jsonToJavaCodeUtil.convertXmlStringToJsonNode(inputString);
+        }else{
+            jsonNode = jsonToJavaCodeUtil.convertJsonStringToJsonNode(inputString);
+        }
+        LinkedHashMap<String, List<String>> listLinkedHashMap = jsonToJavaCodeUtil.convertJsonNodeToMap(jsonNode);
+
+        return listLinkedHashMap;
+    }
+
+    @PostMapping("/json/convert2")
+    @ResponseBody
+    public String convertToDTOString(@RequestParam Map<String, Object> param) throws IOException {
         log.info(param.toString());
         log.info(param.get("jsonString").toString());
 
