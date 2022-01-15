@@ -1,4 +1,4 @@
-package com.example.tutorial.controller;
+package com.example.tutorial.controller.admin;
 
 import com.example.tutorial.service.ZthmMenuService;
 import lombok.RequiredArgsConstructor;
@@ -14,7 +14,7 @@ import javax.servlet.http.HttpSession;
 @RequestMapping("/menu")
 @Controller
 @Slf4j
-public class ZthmMenuController {
+public class MenuController {
     private final ZthmMenuService zthmMenuService;
     private final HttpSession httpSession;
 

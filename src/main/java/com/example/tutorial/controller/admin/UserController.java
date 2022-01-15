@@ -1,4 +1,4 @@
-package com.example.tutorial.controller;
+package com.example.tutorial.controller.admin;
 
 import com.example.tutorial.entity.ZthmError;
 import com.example.tutorial.entity.ZthmMenu;
@@ -21,7 +21,7 @@ import java.util.List;
 @Slf4j
 @RequestMapping("/admin")
 @RequiredArgsConstructor
-public class AdminController {
+public class UserController {
 
     public static final String REDIRECT_ADMIN_USER_LIST_PAGE = "redirect:/admin/user_list_page";
     private final ZthmMenuService zthmMenuService;

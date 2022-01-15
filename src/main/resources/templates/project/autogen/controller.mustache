@@ -1,0 +1,167 @@
+{{>layout/header}}
+
+<script>
+
+    function firstUpper(str) {
+        return str.charAt(0).toUpperCase() + str.slice(1);
+    }
+
+    $(function(){
+        $("#controllerClass").empty();
+
+        $('#myForm').submit(function(event) {
+              var myFormData = {
+                  packageName : $("#packageName").val(),
+                  className : $("#className").val(),
+                  injections : $("#injections").val(),
+                  requestMapping : $("#requestMapping").val(),
+                  methodMapping : $("#methodMapping").val(),
+                  requestModelAttributeCheck : $('#requestModelAttributeCheck').prop("checked"),
+                  requestBodyCheck : $('#requestBodyCheck').prop("checked"),
+                  requestParamCheck : $('#requestParamCheck').prop("checked"),
+                  requestPathCheck : $('#requestPathCheck').prop("checked"),
+                  responseParameter : $("#responseParameter").val()
+              };
+
+              $.ajax({
+                   type : 'POST',
+                   url : '/project/auto_generation_controller',
+                   contentType : 'application/json; charset=utf-8',
+                   data : JSON.stringify(myFormData),
+                   dataType : 'json'
+              }).done(function (data) {
+                   $("#controllerClass").empty();
+                   $.each(data, function(key, value){
+                        console.log(key, value);
+                        var tmpHtml = "";
+                        tmpHtml += '<div class="accordion-item">';
+                        tmpHtml += '<h3 class="accordion-header" id="heading'+key+'"><button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapse'+key+'" aria-expanded="true" aria-controls="collapse'+key+'">'+firstUpper(key)+'.java</button></h3>';
+                        tmpHtml += '<div class="accordion-collapse collapse show" id="collapse'+key+'" aria-labelledby="heading'+key+'" data-bs-parent="#accordionExample">';
+                        tmpHtml += '<div class="accordion-body">';
+                        $.each(value, function(index){
+                            console.log(value[index]);
+                            tmpHtml += value[index];
+                            tmpHtml += '<br/>';
+                        });
+                        tmpHtml += '</div>';
+                        tmpHtml += '</div>';
+                        tmpHtml += '</div>';
+                        console.log(tmpHtml);
+                        $("#controllerClass").append(tmpHtml);
+                   });
+
+              }).fail(function (error) {
+                   console.log(error);
+                   alert(JSON.stringify(error));
+              });
+
+              event.preventDefault();
+        });
+    });
+</script>
+
+    <section class="bg-light py-5">
+        <div class="container px-5">
+            <div class="container-fluid">
+                <div class="text-center mb-5">
+                    <h1 class="fw-bolder">Auto Generation</h1>
+                    <p class="lead fw-normal text-muted mb-0">Controller classes will be created from the input form</p>
+                </div>
+                <form id="myForm" method="post">
+                    <input type="hidden" name="_csrf" value="{{_csrf.token}}"/>
+                    <div class="row mb-3">
+                        <label for="packageName" class="col-sm-2 col-form-label"><strong>Package Name</strong></label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" name="packageName" id="packageName" placeholder="ex) com.sec.controller.project" value = "" required>
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <label for="className" class="col-sm-2 col-form-label"><strong>Class Name</strong></label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" name="className" id="className" placeholder="ex) AutoCodingController" required>
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <label for="injections" class="col-sm-2 col-form-label"><strong>Injections</strong></label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" name="injections" id="injections" placeholder="ex) UserInfoService, If there are multiple inputs, separate them with commas" required>
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <label for="requestMapping" class="col-sm-2 col-form-label"><strong>Request Mapping</strong></label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" name="requestMapping" id="requestMapping" placeholder="ex) /user, If not put, '/' is the default">
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="input-group">
+                            <label class="input-group-text" for="methodMapping">Http Method Mapping</label>
+                            <select class="form-select" name="methodMapping" id="methodMapping">
+                                <option selected>Choose...</option>
+                                <option value="GET">GET</option>
+                                <option value="POST">POST</option>
+                                <option value="PUT">PUT</option>
+                                <option value="DELETE">DELETE</option>
+                            </select>
+                        </div>
+                    </div>
+                    <fieldset class="row mb-3">
+                        <legend class="col-form-label col-sm-2 pt-0"><strong>Input Parameter</strong> <code>(Multiple selection possible)</code></legend>
+                        <div class="col-sm-10">
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" name="requestModelAttributeCheck" id="requestModelAttributeCheck">
+                                <label class="form-check-label" for="requestModelAttributeCheck">
+                                    input from Form(@ModelAttribute)
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" name="requestBodyCheck" id="requestBodyCheck">
+                                <label class="form-check-label" for="requestBodyCheck">
+                                    input from Ajax Object Data(@RequestBody)
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" name="requestParamCheck" id="requestParamCheck">
+                                <label class="form-check-label" for="requestParamCheck">
+                                    input from URL Parameter Data(@RequestParam)
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" name="requestPathCheck" id="requestPathCheck">
+                                <label class="form-check-label" for="requestPathCheck">
+                                    input from URL Path(@PathVariable)
+                                </label>
+                            </div>
+                        </div>
+                    </fieldset>
+                    <div class="row mb-3">
+                        <div class="input-group">
+                            <label class="input-group-text" for="responseParameter">Response Parameter</label>
+                            <select class="form-select" name="responseParameter" id="responseParameter">
+                                <option selected>Choose...</option>
+                                <option value="String">String, (ex) "admin/menu_update"</option>
+                                <option value="ResponseBody">ResponseBody, (ex) UserInfoDTO</option>
+                                <option value="ResponseEntity">ResponseEntity, (ex) ResponseEntity&lt;UserInfoDTO&gt;</option>
+                                <option value="Model">Model, (ex) model.addAttribute("")</option>
+                            </select>
+                        </div>
+                    </div>
+                    <br/>
+                    <div class="d-grid mb-5">
+                        <button type="submit" class="btn btn-outline-success" id="btn-controller-convert">Conversion</button>
+                    </div>
+                </form>
+
+            </div>
+
+
+            <div class="row gx-5">
+                    <!-- FAQ Accordion 1-->
+                    <h2 class="fw-bolder mb-3">Controller</h2>
+                    <div class="accordion mb-5" id="controllerClass">
+                    </div>
+            </div>
+        </div>
+    </section>
+
+{{>layout/footer}}
