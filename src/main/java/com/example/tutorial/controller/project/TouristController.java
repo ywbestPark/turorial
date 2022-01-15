@@ -1,4 +1,4 @@
-package com.example.tutorial.controller;
+package com.example.tutorial.controller.project;
 
 import com.example.tutorial.dto.Tour.Item;
 import com.example.tutorial.entity.ZthmCommonCode;
@@ -18,7 +18,7 @@ import java.util.List;
 @AllArgsConstructor
 @Slf4j
 @RequestMapping("/project")
-public class ProjectController {
+public class TouristController {
     private final TourService tourService;
     private final ZthmCommonCodeService zthmCommonCodeService;
 

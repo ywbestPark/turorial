@@ -17,6 +17,8 @@ public class UserInterceptor implements HandlerInterceptor {
 
     public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler, ModelAndView modelAndView) throws Exception {
         log.info("[ postHandle ]");
+        log.info("yyyyyyyRequestURI : "+request.getRequestURI());
+        log.info("yyyyyyyServletPath : "+request.getServletPath());
         CsrfToken csrfToken = (CsrfToken) request.getAttribute("-csrf");
         log.info("return csrf token in postHandle {} ", csrfToken);
     }
