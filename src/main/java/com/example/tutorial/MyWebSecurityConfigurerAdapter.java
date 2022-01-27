@@ -149,19 +149,21 @@ public class MyWebSecurityConfigurerAdapter extends WebSecurityConfigurerAdapter
                             log.info("Authority Information {} ", authority.getAuthority());
                         }
                         log.info("getName {} ",auth.getName());
-                        res.sendRedirect("/");
+                        //res.sendRedirect("/");
                     })
                     .failureHandler((request, response, exception)->{
                         String errMsg = "";
                         if(exception.getClass().isAssignableFrom(BadCredentialsException.class)){
                             errMsg = "Invalid username or password";
+                            response.setStatus(401);
                         }else{
                             errMsg = "UnKnown error - "+exception.getMessage();
+                            response.setStatus(400);
                         }
                         zthmErrorRepository.save(ZthmError.builder()
                                 .errorMessage("Login Error : "+exception.getMessage())
                                 .build());
-                        response.sendRedirect("/loginForm");
+                        //response.sendRedirect("/loginForm");
                     })
                     .permitAll();
 
