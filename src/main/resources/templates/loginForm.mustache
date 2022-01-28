@@ -6,13 +6,55 @@
     <meta name="description" content="">
     <meta name="author" content="">
     <title>Please sign in</title>
+    <script type="text/javascript" language="javascript" src="https://code.jquery.com/jquery-3.5.1.js"></script>
+    <script type="text/javascript" language="javascript" src="https://code.jquery.com/ui/1.12.0/jquery-ui.min.js"></script>
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous">
     <link href="https://getbootstrap.com/docs/4.0/examples/signin/signin.css" rel="stylesheet" crossorigin="anonymous"/>
 </head>
 <body>
 
+<script>
+    $(function(){
+
+        $('#myForm').submit(function(event) {
+            $.ajaxSetup({
+                headers: {
+                    "X-CSRF-Token" : $('input[name="_csrf"]').attr('value')
+                }
+            });
+
+            var myFormData = {
+                username : $('#username').val(),
+                password : $("#password").val()
+            };
+
+            $.ajax({
+                type : 'POST',
+                url : '/signin',
+                contentType : 'application/x-www-form-urlencoded; charset=utf-8',
+                data : myFormData,
+                dataType : 'json'
+            }).done(function (data) {
+                <!--alert("login success");-->
+                alert(data.result)
+                window.location.href = '/';
+            }).fail(function (error) {
+                var errText;
+                if(JSON.stringify(error.status)==401){
+                    errText="Invalid username or password";
+                }else{
+                    errText="UnKnown error";
+                }
+                alert("login fail : "+errText);
+            });
+
+            event.preventDefault();
+        });
+    });
+</script>
+
 <div class="container">
-    <form class="form-signin" method="post" action="/signin">
+    <form class="form-signin" id="myForm">
         <input type="hidden" name="_csrf" value="{{_csrf.token}}"/>
         <h2 class="form-signin-heading">Please sign in</h2>
         <p>
@@ -35,13 +77,14 @@
     <div class="row justify-content-center">
         With GitHub: <a href="/oauth2/authorization/github">click here</a>
     </div>
-<!--    <div class="row justify-content-center">-->
-<!--        <a href="/oauth2/authorization/github"><img src="assets/gitlogin.JPG"></a>-->
-<!--    </div>-->
+    <!--    <div class="row justify-content-center">-->
+    <!--        <a href="/oauth2/authorization/github"><img src="assets/gitlogin.JPG"></a>-->
+    <!--    </div>-->
 </div>
 <div class="container px-5">
     <div class="row justify-content-center">
         <a href="/joinForm">Sign up</a>
+        {{#imagePath}}<p>{{errMsg}}</p>{{/imagePath}}
     </div>
 </div>
 

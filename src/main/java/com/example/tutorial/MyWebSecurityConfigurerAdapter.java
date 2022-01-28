@@ -9,6 +9,7 @@ import com.example.tutorial.repository.ZthmPageRepository;
 import com.example.tutorial.user.service.CustomOAuth2UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.json.simple.JSONObject;
 import org.springframework.boot.web.servlet.ServletListenerRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -34,7 +35,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(securedEnabled=true, prePostEnabled=true, jsr250Enabled = true)
@@ -144,24 +147,37 @@ public class MyWebSecurityConfigurerAdapter extends WebSecurityConfigurerAdapter
                 .formLogin() // 로그인에 관한 설정
                     .loginPage("/loginForm") // 로그인 페이지 링크
                     .loginProcessingUrl("/signin")
-                    .successHandler((req, res, auth)->{
+                    .successHandler((request, response, auth)->{
                         for (GrantedAuthority authority : auth.getAuthorities()){
                             log.info("Authority Information {} ", authority.getAuthority());
                         }
                         log.info("getName {} ",auth.getName());
-                        res.sendRedirect("/");
+                        //res.sendRedirect("/");
+
+                        Map<String, String> res = new HashMap<>();
+                        res.put("result", "login success");
+                        JSONObject json =  new JSONObject(res);
+                        response.setContentType("application/json; charset=utf-8");
+                        response.getWriter().print(json);
                     })
                     .failureHandler((request, response, exception)->{
                         String errMsg = "";
                         if(exception.getClass().isAssignableFrom(BadCredentialsException.class)){
                             errMsg = "Invalid username or password";
+                            //response.setStatus(401);
                         }else{
                             errMsg = "UnKnown error - "+exception.getMessage();
+                            //response.setStatus(400);
                         }
                         zthmErrorRepository.save(ZthmError.builder()
                                 .errorMessage("Login Error : "+exception.getMessage())
                                 .build());
-                        response.sendRedirect("/loginForm");
+                        Map<String, String> res = new HashMap<>();
+                        res.put("result", errMsg);
+                        JSONObject json =  new JSONObject(res);
+                        response.setContentType("application/json; charset=utf-8");
+                        response.getWriter().print(json);
+                        //response.sendRedirect("/loginForm");
                     })
                     .permitAll();
 
