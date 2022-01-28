@@ -33,9 +33,10 @@
                 url : '/signin',
                 contentType : 'application/x-www-form-urlencoded; charset=utf-8',
                 data : myFormData,
-                dataType : 'text'
+                dataType : 'json'
             }).done(function (data) {
                 <!--alert("login success");-->
+                alert(data.result)
                 window.location.href = '/';
             }).fail(function (error) {
                 var errText;
