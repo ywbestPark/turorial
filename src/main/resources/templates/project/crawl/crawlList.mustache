@@ -1,0 +1,83 @@
+{{>layout/header}}
+
+<!-- Page Content-->
+<section class="py-5">
+    <!-- Required dataTable -->
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.3/css/jquery.dataTables.min.css">
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jszip/2.5.0/jszip.min.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.min.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/buttons/2.1.1/js/dataTables.buttons.min.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/buttons/2.1.1/js/buttons.colVis.min.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/buttons/2.1.1/js/buttons.html5.min.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/scroller/2.0.5/js/dataTables.scroller.min.js"></script>
+
+    <script type="text/javascript" class="init">
+                var table;
+                $(document).ready(function() {
+
+                     $("#crawlTable").on('click', 'tbody tr', function () {
+                        var row = $("#crawlTable").DataTable().row($(this)).data();
+                        console.log(row);
+                    });
+
+                    $('#crawlTable').DataTable( {
+                        lengthChange: true,
+                        lengthMenu: [10,20,30,40,50],
+                        displayLength: 10,
+                        scrollX: true,
+                        ajax : {
+                            "url":"/project/crawl_list",
+                            "type":"GET",
+                            "data": function (d) { // ajax 호출 시 입력 데이터 정의
+                                d.userStatCd = "NR";
+                            },
+                            // datatables 가 Ajax로 데이터를 가져올 때는 기본적으로 최상위에 "data" 라는 키를 가진 형태이어야함
+                            // data를 최상위에 못 넣어 주는 경우 아래와 같이 ""로 선언하여 처음 부터 배열임을 지정해 주면 됨
+                            "dataSrc": ""
+                        },
+                        columns: [
+                            { data: "priceId.date" },
+                            { data: "priceId.symbol" },
+                            { data: "name" },
+                            { data: "close" },
+                            { data: "open" },
+                            { data: "high" },
+                            { data: "low" },
+                            { data: "volume" },
+                            { data: "modifiedDate" }
+                        ],
+                        order: [ [1, 'asc'] ]
+                    } );
+                } );
+    </script>
+    <div class="container-fluid my-3">
+        <div class="row align-items-center">
+            <div class="col col-9">
+                <h2>Stocks of interest</h2>
+            </div>
+        </div>
+    </div>
+
+    <hr>
+
+    <div class="container-fluid">
+        <table id="crawlTable" class="display" cellspacing="0" width="100%">
+            <thead>
+            <tr>
+                <th>date</th>
+                <th>symbol</th>
+                <th>name</th>
+                <th>current</th>
+                <th>open</th>
+                <th>high</th>
+                <th>low</th>
+                <th>volume</th>
+                <th>modifiedDate</th>
+            </tr>
+            </thead>
+        </table>
+    </div>
+
+</section>
+
+{{>layout/footer}}

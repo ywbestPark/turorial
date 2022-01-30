@@ -36,6 +36,150 @@ public class ZthmCodeRepositoryTest {
 
     }
 
+    @Test
+    public void savePrice1(){
+        ZthmCommonCode zthmCommonCode = ZthmCommonCode.builder()
+                .codeId("000660")
+                .codeName("SK하이닉스")
+                .codeDescription("주식 조회 대상")
+                .codeGroupId("price")
+                .codeGroupName("price")
+                .codeGroupDescription("주식 가격 조회")
+                .build();
+
+        ZthmCommonCode zthmCommonCodeNew = repository.save(zthmCommonCode);
+
+        assertEquals(true, zthmCommonCodeNew.isEnable());
+    }
+
+    @Test
+    public void savePrice2(){
+        ZthmCommonCode zthmCommonCode = ZthmCommonCode.builder()
+                .codeId("051910")
+                .codeName("LG화학")
+                .codeDescription("주식 조회 대상")
+                .codeGroupId("price")
+                .codeGroupName("price")
+                .codeGroupDescription("주식 가격 조회")
+                .build();
+
+        ZthmCommonCode zthmCommonCodeNew = repository.save(zthmCommonCode);
+
+        assertEquals(true, zthmCommonCodeNew.isEnable());
+    }
+
+    @Test
+    public void savePrice3(){
+        ZthmCommonCode zthmCommonCode = ZthmCommonCode.builder()
+                .codeId("035420")
+                .codeName("NAVER")
+                .codeDescription("주식 조회 대상")
+                .codeGroupId("price")
+                .codeGroupName("price")
+                .codeGroupDescription("주식 가격 조회")
+                .build();
+
+        ZthmCommonCode zthmCommonCodeNew = repository.save(zthmCommonCode);
+
+        assertEquals(true, zthmCommonCodeNew.isEnable());
+    }
+
+    @Test
+    public void savePrice4(){
+        ZthmCommonCode zthmCommonCode = ZthmCommonCode.builder()
+                .codeId("207940")
+                .codeName("삼성바이오로직스")
+                .codeDescription("주식 조회 대상")
+                .codeGroupId("price")
+                .codeGroupName("price")
+                .codeGroupDescription("주식 가격 조회")
+                .build();
+
+        ZthmCommonCode zthmCommonCodeNew = repository.save(zthmCommonCode);
+
+        assertEquals(true, zthmCommonCodeNew.isEnable());
+    }
+
+    @Test
+    public void savePrice5(){
+        ZthmCommonCode zthmCommonCode = ZthmCommonCode.builder()
+                .codeId("006400")
+                .codeName("삼성SDI")
+                .codeDescription("주식 조회 대상")
+                .codeGroupId("price")
+                .codeGroupName("price")
+                .codeGroupDescription("\t주식 가격 조회")
+                .build();
+
+        ZthmCommonCode zthmCommonCodeNew = repository.save(zthmCommonCode);
+
+        assertEquals(true, zthmCommonCodeNew.isEnable());
+    }
+
+    @Test
+    public void savePrice6(){
+        ZthmCommonCode zthmCommonCode = ZthmCommonCode.builder()
+                .codeId("068270")
+                .codeName("셀트리온")
+                .codeDescription("주식 조회 대상")
+                .codeGroupId("price")
+                .codeGroupName("price")
+                .codeGroupDescription("\t주식 가격 조회")
+                .build();
+
+        ZthmCommonCode zthmCommonCodeNew = repository.save(zthmCommonCode);
+
+        assertEquals(true, zthmCommonCodeNew.isEnable());
+    }
+
+    @Test
+    public void savePrice7(){
+        ZthmCommonCode zthmCommonCode = ZthmCommonCode.builder()
+                .codeId("091990")
+                .codeName("셀트리온헬스케어")
+                .codeDescription("주식 조회 대상")
+                .codeGroupId("price")
+                .codeGroupName("price")
+                .codeGroupDescription("\t주식 가격 조회")
+                .build();
+
+        ZthmCommonCode zthmCommonCodeNew = repository.save(zthmCommonCode);
+
+        assertEquals(true, zthmCommonCodeNew.isEnable());
+    }
+
+    @Test
+    public void savePrice8(){
+        ZthmCommonCode zthmCommonCode = ZthmCommonCode.builder()
+                .codeId("035720")
+                .codeName("카카오")
+                .codeDescription("주식 조회 대상")
+                .codeGroupId("price")
+                .codeGroupName("price")
+                .codeGroupDescription("\t주식 가격 조회")
+                .build();
+
+        ZthmCommonCode zthmCommonCodeNew = repository.save(zthmCommonCode);
+
+        assertEquals(true, zthmCommonCodeNew.isEnable());
+    }
+
+    @Test
+    public void savePrice9(){
+        ZthmCommonCode zthmCommonCode = ZthmCommonCode.builder()
+                .codeId("373220")
+                .codeName("LG에너지솔루션")
+                .codeDescription("주식 조회 대상")
+                .codeGroupId("price")
+                .codeGroupName("price")
+                .codeGroupDescription("\t주식 가격 조회")
+                .build();
+
+        ZthmCommonCode zthmCommonCodeNew = repository.save(zthmCommonCode);
+
+        assertEquals(true, zthmCommonCodeNew.isEnable());
+    }
+
 //    @Test
 //    public void findByCodeGroupIdAndIsEnable(){
 //        repository.findByCodeGroupIdAndIsEnable("ROLE", true);
