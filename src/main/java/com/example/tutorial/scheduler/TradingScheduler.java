@@ -24,8 +24,8 @@ public class TradingScheduler {
     private final ZthmCommonCodeRepository zthmCommonCodeRepository;
 
     /** * Cron 표현식을 사용한 작업 예약 * 초(0-59) 분(0-59) 시간(0-23) 일(1-31) 월(1-12) 요일(0-7) */
-    //@Scheduled(cron = "0 0 9-16 * * 0-5")
-    @Scheduled(fixedRate = 1000*60*60)//60분마다 수행
+    @Scheduled(cron = "0 0 9-16 * * 0-5")
+    //@Scheduled(fixedRate = 1000*60*60)//60분마다 수행
     public void scheduleTaskUsingCronExpression() {
         log.info("########## TradingScheduler Started ##########");
 
