@@ -4,3 +4,16 @@
         title varchar(255),
         primary key (id)
     );
+
+    create table if not exists price (
+        date varchar(20),
+        symbol varchar(6),
+        name varchar (100),
+        close varchar (100),
+        open varchar (100),
+        high varchar (100),
+        low varchar (100),
+        volume varchar (100),
+        primary key(date, symbol)
+    );
+
